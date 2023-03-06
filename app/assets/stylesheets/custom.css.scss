@@ -1,5 +1,52 @@
 @import 'bootstrap/dist/css/bootstrap';
 
 .navbar {
-    background-color: #FDF6EA !important;
+    background-color: black !important;
+}
+
+.nav-link {
+    color: white !important;
+}
+
+.navbar-toggler {
+    background-color: #00BFFF !important;
+}
+
+
+#logo {
+    float: left;
+    font-size: 1.7em;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    font-weight: bold;
+}
+
+#home-container {
+    background-image: asset-url('home-page-background.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100%;
+    min-width: 100%;
+    position: absolute;
+}
+
+
+#home-headings {
+    position: absolute;
+    width: 310px;
+    font-size: 25px;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+#home-footer {
+    background-color: black;
+    width: 100%;
+    text-align: center;
+    color: #ccc;
+    font-size: small;
 }

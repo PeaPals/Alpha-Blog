@@ -1,26 +1,39 @@
-<table>
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th colspan="3">Actions</th>
-        </tr>
-    </thead>
+<div id="page-content">
+    <h1 class="text-center mt-4">Listing All Articles</h1>
 
-    <tbody>
-        <% @articles.each do |article| %>
-            <tr>
-                <td><%=article.title%></td>
-                <td><%=article.description%></td>
-                <td><%=link_to 'Show', article_path(article)%></td>
-                <td><%=link_to 'Edit', edit_article_path(article)%></td>
-                <td><%=link_to 'Delete', article_path(article), method: :delete, data: {confirm: "Are you sure?"} %></td>
-            </tr>
+    <div class="container">
+        <% for i in 1..((@articles.length/3)) do  %>
+            <div class="row">
+                <% for j in 1..3 do %>
+                    <% if @articles[(i+j-2)] %>
+                        <div class="col-sm" style="margin: 22px;">
+                            <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem; align-items: center;">
+                                <%# TODO : <img class="card-img-top" src="..." alt="Card image cap"> %>
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= @articles[(i+j-2)].title %></h5>
+                                    <p class="card-text"><%= truncate(@articles[(i+j-2)].description, length: 100) %></p>
+                                    <div>
+                                        <%=link_to 'Show', article_path(@articles[(i+j-2)]), class: "btn btn-outline-primary" %>
+                                        <%=link_to 'Edit', edit_article_path(@articles[(i+j-2)]), class: "btn btn-outline-warning" %>
+                                        <%=link_to 'Delete', article_path(@articles[(i+j-2)]), class: "btn btn-outline-danger", method: :delete, data: {confirm: "Are you sure?"} %>
+                                    </div>
+                                    <br><br>
+                                    <div class="card-footer text-muted" style="background-color: white;">
+                                        <small>Created : <%= time_ago_in_words(@articles[(i+j-2)].created_at) %> ago</small><br>
+                                        <small>Updated : <%= time_ago_in_words(@articles[(i+j-2)].updated_at) %> ago</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>
         <% end %>
-    </tbody>
-</table>
+    </div>
 
 
 <p>
     <%= link_to 'Create new article', new_article_path %>
 </p>
+
+</div>

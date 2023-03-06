@@ -1,25 +1,37 @@
-<% if @article.errors.any? %>
-    <h3>following validation errors are present</h3>
-    <% @article.errors.full_messages.each do |msg| %>
-        <ul>
-            <li><%=msg%></li>
-        </ul>
+<div class="container">
+    <%= render 'shared/errors' %>
+
+    <%= form_with scope: :article, url: articles_path, local: true do |f| %>
+        <div class="form-group row" style="margin: 10px;">
+            <%= f.label :title, class: "col-2 col-form-label" %>
+            <div class="col-9">
+                <%= f.text_field :title, class: "form-control", placeholder: "Enter your title here", type: "text"%>
+                <small class="form-text text-muted">
+                    Must be 6-100 characters long.
+                </small>
+            </div>
+        </div>
+
+
+
+        <div class="form-group row" style="margin: 10px;">
+            <%= f.label :description, class: "col-2 col-form-label" %>
+            <div class="col-9">
+                <%= f.text_area :description, rows: 10, class: "form-control", placeholder: "Enter your description here", type: "text" %>
+                <small class="form-text text-muted">
+                    Must be 6-100 characters long.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group row" style="margin: 10px;">
+            <div class="col-2"></div>
+            <div class="col-9" style="display: flex;">
+                <%= f.submit class: "btn btn-outline-success btn-block col-5"%>
+                <%= link_to "Cancel", articles_path, class: "btn btn-outline-danger col-5", style: "position: relative; right: -16.5%;" %>
+            </div>
+        </div>
     <% end %>
-<% end %>
 
 
-<%= form_with scope: :article, url: articles_path, local: true do |f| %>
-    <p>
-        <%= f.label :title %><br/>
-        <%= f.text_field :title %>
-    </p>
-
-    <p>
-        <%= f.label :description %><br/>
-        <%= f.text_area :description %>
-    </p>
-
-    <p>
-        <%= f.submit %>
-    </p>
-<% end %>
+</div>
