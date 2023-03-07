@@ -1,7 +1,7 @@
 <div class="container">
     <%= render 'shared/errors' %>
 
-    <%= form_with scope: :article, url: articles_path, local: true do |f| %>
+    <%= form_with(model: @article, local: true) do |f| %>
         <div class="form-group row" style="margin: 10px;">
             <%= f.label :title, class: "col-2 col-form-label" %>
             <div class="col-9">
