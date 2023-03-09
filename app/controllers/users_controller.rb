@@ -1,6 +1,11 @@
 class UsersController < ApplicationController
-  # before_action :get_user, only: [:show, :update, :edit, :destroy]
-  before_action :get_user, only: [:edit, :update]
+  before_action :get_user, only: [:show, :edit, :update]
+
+
+  def show
+    @articles = @user.articles
+  end
+
 
 
   def new
