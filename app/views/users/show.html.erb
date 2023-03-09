@@ -45,7 +45,17 @@
       </div>
 
       <div class="col-md-8 shadow-lg p-3 mb-5 bg-white rounded">
+
+        <div class="flickr_pagination" style="margin: 2em;">
+          <%= will_paginate @articles, :container => false %>
+        </div>
+
         <%= render 'shared/articles-view' , columns: 2 %>
+
+        <div class="flickr_pagination" style="margin: 2em;">
+          <%= will_paginate @articles, :container => false %>
+        </div>
+
       </div>
 
     </div>
