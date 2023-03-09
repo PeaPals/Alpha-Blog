@@ -23,6 +23,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:notice] = "Welcome to the Alpha Blog #{@user.username}, sign-up successful."
+      session[:user_id] = @user.id
       redirect_to @user
     else
       render 'new'

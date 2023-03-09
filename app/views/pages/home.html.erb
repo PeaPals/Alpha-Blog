@@ -2,6 +2,12 @@
     <div class="text-center text-white " id="home-headings">
         <h1 class="display-4 text-white fw-bold" style="font-size: 46px;">Welcome to Alpha-Blog</h1>
         <p class="lead fw-bold" style="color: slategrey; font-style: italic;">The world lives here</p>
-        <%= link_to "Get Started", signup_path, class: "btn btn-outline-info btn-lg fw-bold" %>
+
+        <% if logged_in? %>
+          <%= link_to "My Profile", user_path(current_user), class: "btn btn-outline-info btn-lg fw-bold" %>
+        <% else %>
+          <%= link_to "Get Started", signup_path, class: "btn btn-outline-info btn-lg fw-bold" %>
+        <% end %>
+
     </div>
 </div>
