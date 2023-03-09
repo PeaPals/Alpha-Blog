@@ -34,7 +34,12 @@
             <div class="col-2"></div>
             <div class="col-9" style="display: flex;">
                 <%= f.submit(@user.new_record? ? "Sign-up" : "Update Account", class: "btn btn-outline-success btn-block col-5") %>
-                <%= link_to "Cancel", users_path, class: "btn btn-outline-danger col-5", style: "position: relative; right: -16.5%;" %>
+
+                <% if logged_in? %>
+                  <%= link_to "Cancel", current_user, class: "btn btn-outline-danger col-5", style: "position: relative; right: -16.5%;" %>
+                <% else %>
+                  <%= link_to "Cancel", users_path, class: "btn btn-outline-danger col-5", style: "position: relative; right: -16.5%;" %>
+                <% end %>
             </div>
         </div>
 
