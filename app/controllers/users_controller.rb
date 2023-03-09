@@ -7,6 +7,12 @@ class UsersController < ApplicationController
   end
 
 
+  def index
+    @users = User.all
+  end
+
+
+
 
   def new
     @user = User.new
@@ -17,7 +23,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:notice] = "Welcome to the Alpha Blog #{@user.username}, sign-up successful."
-      redirect_to articles_path
+      redirect_to @user
     else
       render 'new'
     end
@@ -30,7 +36,7 @@ class UsersController < ApplicationController
   def update
     if @user.update(user_params)
       flash[:notice] = "Profile updated successfully."
-      redirect_to articles_path
+      redirect_to @user
     else
       render 'edit'
     end

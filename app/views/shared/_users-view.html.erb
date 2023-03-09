@@ -1,0 +1,32 @@
+<div class="container">
+  <% for i in 0..((@users.length/columns)) do  %>
+      <div class="row">
+          <% for j in 0..(columns-1) do %>
+              <% user = @users[(i*columns)+j] %>
+              <% if user %>
+                  <div class="col-sm" style="margin: 16px;">
+                      <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 19rem; align-items: center;">
+                          <div class="card-header text-muted" style="background-color: white;">
+                            <button class="btn btn-sm btn-dark disabled" style="margin-left: 10px; height: 30px; width: 85px;"><%=pluralize(user.articles.count, "Article")%></button>
+                          </div>
+
+                          <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Profile-Image" class="rounded-circle" width="150" style="margin-top: 15px;">
+                          <div class="card-body">
+                              <h5 class="card-title"><%= user.username %></h5>
+                              <p class="card-text text-secondary"><%= user.email %></p>
+                              <div>
+                                  <%=link_to 'Show Profile', user_path(user), class: "btn btn-outline-primary" %>
+                                  <%=link_to 'Edit Profile', edit_user_path(user), class: "btn btn-outline-warning" %>
+                              </div>
+                              <br><br>
+                              <div class="card-footer text-muted" style="background-color: white;">
+                                <small>Joined <%= time_ago_in_words(user.created_at) %> ago</small>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              <% end %>
+          <% end %>
+      </div>
+  <% end %>
+</div>
