@@ -11,8 +11,9 @@
                 <h4><%= @user.username %></h4>
                 <p class="text-secondary mb-1" style="margin: 10px;">Alpha Blogger<button class="btn btn-sm btn-dark disabled" style="margin-left: 10px; height: 30px; width: 85px;"><%=pluralize(@user.articles.count, "Article")%></button></p>
 
-                <% if logged_in? && current_user == @user %>
+                <% if logged_in? && (current_user == @user || current_user.admin?) %>
                   <%= link_to "Edit Profile", edit_user_path(@user), class: "btn btn-outline-primary", style: "margin: 10px;" %>
+                  <%= link_to "Delete Profile", user_path(@user), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-outline-danger", style: "margin: 10px;" %>
                 <% end %>
 
               </div>
