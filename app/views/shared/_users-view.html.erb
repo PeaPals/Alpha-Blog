@@ -16,7 +16,10 @@
                               <p class="card-text text-secondary"><%= user.email %></p>
                               <div>
                                   <%=link_to 'Show Profile', user_path(user), class: "btn btn-outline-primary" %>
-                                  <%=link_to 'Edit Profile', edit_user_path(user), class: "btn btn-outline-warning" %>
+
+                                  <% if logged_in? && current_user == user %>
+                                    <%=link_to 'Edit Profile', edit_user_path(user), class: "btn btn-outline-warning" %>
+                                  <% end %>
                               </div>
                               <br><br>
                               <div class="card-footer text-muted" style="background-color: white;">
