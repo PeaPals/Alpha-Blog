@@ -1,4 +1,4 @@
-<div class="container" id="auth-form">
+<div class="container">
   <%= render 'shared/errors', obj: @user %>
 
   <div class="card-body">
@@ -33,7 +33,7 @@
       <div class="form-group row" style="margin: 10px;">
             <div class="col-2"></div>
             <div class="col-9" style="display: flex;">
-                <%= f.submit "Sign-up", class: "btn btn-outline-success btn-block col-5"%>
+                <%= f.submit(@user.new_record? ? "Sign-up" : "Update Account", class: "btn btn-outline-success btn-block col-5") %>
                 <%= link_to "Cancel", root_path, class: "btn btn-outline-danger col-5", style: "position: relative; right: -16.5%;" %>
             </div>
         </div>
