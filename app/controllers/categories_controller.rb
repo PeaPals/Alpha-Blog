@@ -1,5 +1,7 @@
 class CategoriesController < ApplicationController
-  # before_action :get_user, only: [:show, :edit, :update, :destroy]
+  before_action :get_category, only: [:show]
+  before_action :require_admin, except: [:show, :index]
+
 
 
   def new
@@ -19,6 +21,7 @@ class CategoriesController < ApplicationController
   end
 
   def index
+    @categories = Category.paginate(page: params[:page], per_page: 9)
   end
 
   def show
@@ -36,11 +39,11 @@ class CategoriesController < ApplicationController
     params.require(:category).permit(:name)
   end
 
-  # def require_same_user
-  #   if (current_user != @user && !current_user.admin?)
-  #     flash[:alert] = "You can only edit or delete your own profile."
-  #     redirect_to @user
-  #   end
-  # end
+  def require_admin
+    if !(logged_in? && current_user.admin?)
+      flash[:alert] = "Only admins can perform this action."
+      redirect_to "/categories"
+    end
+  end
 
 end
