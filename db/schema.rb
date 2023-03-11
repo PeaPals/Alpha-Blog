@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_11_094711) do
+ActiveRecord::Schema.define(version: 2023_03_11_113524) do
 
   create_table "article_categories", force: :cascade do |t|
     t.integer "article_id"
@@ -39,7 +39,6 @@ ActiveRecord::Schema.define(version: 2023_03_11_094711) do
     t.string "email", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "password_digest"
     t.boolean "admin", default: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

@@ -13,7 +13,7 @@
               <ul class="dropdown-menu">
               <li><%= link_to "View All Articles", articles_path, class: "dropdown-item" %>
 
-              <% if logged_in? %>
+              <% if user_signed_in? %>
                 <li><%= link_to "Create New Article", new_article_path, class: "dropdown-item" %>
               <% end %>
               </ul>
@@ -26,17 +26,17 @@
               <ul class="dropdown-menu">
               <li><%= link_to "View All Categories", categories_path, class: "dropdown-item" %>
 
-              <% if logged_in? && current_user.admin? %>
+              <% if user_signed_in? && current_user.admin? %>
                 <li><%= link_to "Create New Category", new_category_path, class: "dropdown-item" %>
               <% end %>
               </ul>
             </li>
 
             <li class="nav-item">
-                <%= link_to "Bloggers", users_path, class: "nav-link", id: "home-nav-link" %>
+                <%= link_to "Bloggers", user_index_path, class: "nav-link", id: "home-nav-link" %>
             </li>
 
-            <% if logged_in? %>
+            <% if user_signed_in? %>
 
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="home-nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -44,17 +44,17 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li><%= link_to "My Profile", current_user, class: "dropdown-item" %>
-                  <li><%= link_to "Edit Profile", edit_user_path(current_user), class: "dropdown-item" %>
-                  <li><%= link_to "Logout", logout_path, method: :delete, class: "dropdown-item" %>
-                  <li><%= link_to "Delete Profile", user_path(current_user), method: :delete, data: {confirm: "are you sure?"}, class: "dropdown-item text-danger" %>
+                  <li><%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item" %>
+                  <li><%= link_to "Logout",  destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+                  <li><%= link_to "Delete Profile", registration_path(current_user), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "dropdown-item text-danger" %>
                 </ul>
               </li>
             <% else %>
               <li class="nav-item">
-                  <%= link_to "Login", login_path, class: "nav-link", id: "home-nav-link" %>
+                  <%= link_to "Login", new_user_session_path, class: "nav-link", id: "home-nav-link" %>
               </li>
               <li class="nav-item">
-                  <%= link_to "Signup", signup_path, class: "nav-link", id: "home-nav-link" %>
+                  <%= link_to "Signup", new_user_registration_path, class: "nav-link", id: "home-nav-link" %>
               </li>
             <% end %>
 

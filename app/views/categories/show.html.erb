@@ -12,7 +12,7 @@
                   <h4><%= @category.name %></h4>
                   <p class="text-secondary" style="margin: 30px;">Mentioned In <button class="btn btn-sm btn-dark disabled" style="margin-left: 10px; height: 30px; width: 85px;"><%=pluralize(@category.articles.count, "Article")%></button></p>
 
-                  <% if logged_in? && current_user.admin? %>
+                  <% if user_signed_in? && current_user.admin? %>
                     <%= link_to "Edit Category", edit_category_path(@category), class: "btn btn-outline-primary", style: "margin: 10px;" %>
                   <% end %>
 

@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
   before_action :get_article, only: [:show, :update, :edit, :destroy]
-  before_action :require_user, except: [:show, :index]
+  before_action :authenticate_user!, except: [:show, :index]
   before_action :require_same_user, only: [:edit, :update, :destroy]
 
 
@@ -20,7 +20,7 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(article_params)
 
-    if logged_in?
+    if user_signed_in?
       @article.user = current_user
     end
 

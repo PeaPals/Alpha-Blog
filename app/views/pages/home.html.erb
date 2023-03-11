@@ -3,10 +3,10 @@
         <h1 class="display-4 text-white fw-bold" style="font-size: 46px;">Welcome to Alpha-Blog</h1>
         <p class="lead fw-bold" style="color: slategrey; font-style: italic;">The world lives here</p>
 
-        <% if logged_in? %>
+        <% if user_signed_in? %>
           <%= link_to "My Feed", articles_path, class: "btn btn-outline-info btn-lg fw-bold" %>
         <% else %>
-          <%= link_to "Get Started", signup_path, class: "btn btn-outline-info btn-lg fw-bold" %>
+          <%= link_to "Get Started", new_user_registration_path, class: "btn btn-outline-info btn-lg fw-bold" %>
         <% end %>
 
     </div>

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_action :get_user, only: [:show, :edit, :update, :destroy]
-  before_action :require_user, except: [:new, :create, :show, :index]
-  before_action :require_same_user, only: [:edit, :update, :destroy]
+  before_action :get_user, only: [:show, :edit, :update]
+  before_action :authenticate_user!, except: [:show, :index, :edit, :update]
+  before_action :user_is_admin, only: [:edit, :update]
 
 
   def show
@@ -11,25 +11,6 @@ class UsersController < ApplicationController
 
   def index
     @users = User.paginate(page: params[:page], per_page: 6)
-  end
-
-
-
-
-  def new
-    @user = User.new
-  end
-
-
-  def create
-    @user = User.new(user_params)
-    if @user.save
-      flash[:notice] = "Welcome to the Alpha Blog #{@user.username}, sign-up successful."
-      session[:user_id] = @user.id
-      redirect_to @user
-    else
-      render 'new'
-    end
   end
 
 
@@ -46,16 +27,16 @@ class UsersController < ApplicationController
   end
 
 
-  def destroy
-    if (current_user.admin? && current_user == @user) || !current_user.admin?
-      session[:user_id] = nil
-    end
+  # def destroy
+  #   if (current_user.admin? && current_user == @user) || !current_user.admin?
+  #     session[:user_id] = nil
+  #   end
 
 
-    @user.destroy
-    flash[:notice] = "Account and all associated artices successfully deleted"
-    redirect_to root_path
-  end
+  #   @user.destroy
+  #   flash[:notice] = "Account and all associated artices successfully deleted"
+  #   redirect_to root_path
+  # end
 
 
 
@@ -69,12 +50,13 @@ class UsersController < ApplicationController
     params.require(:user).permit(:username, :email, :password)
   end
 
-  def require_same_user
-    if (current_user != @user && !current_user.admin?)
-      flash[:alert] = "You can only edit or delete your own profile."
+  def user_is_admin
+    if !current_user.admin?
+      flash[:alert] = "Only admins can perform this action."
       redirect_to @user
     end
   end
+
 
 
 end
