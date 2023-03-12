@@ -24,11 +24,16 @@
             </div>
         </div>
 
+
         <div class="form-group row" style="margin: 10px;">
             <%= f.label :category, class: "col-2 col-form-label" %>
             <div class="col-9">
-                <%= f.collection_select(:category_ids, Category.all, :id, :name,
-                    {multiple: true, size: 3, class: "custom-select form-select mb-3 rounded"}) %>
+              <%= select_tag(:category_ids,
+                            options_for_select(Category.all.map { |category| [category.name, category.id] }),
+                            multiple: true,
+                            size: 3,
+                            class: "custom-select form-select mb-3 rounded"
+                          ) %>
                 <small class="form-text text-muted">
                     Make your selection from the list above (can be empty).
                 </small>
