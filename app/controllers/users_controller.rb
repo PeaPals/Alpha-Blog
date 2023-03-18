@@ -51,7 +51,7 @@ class UsersController < ApplicationController
   end
 
   def user_is_admin
-    if !current_user.admin?
+    if !current_user || !current_user.admin?
       flash[:alert] = "Only admins can perform this action."
       redirect_to @user
     end

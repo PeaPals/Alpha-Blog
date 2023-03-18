@@ -28,7 +28,9 @@
                               </div>
                               <br><br>
                               <div class="card-footer text-muted" style="background-color: white;">
-                                  <small>Created By : <%= article.user.username %></small><br>
+                                  <% if article.user %>
+                                    <small>Created By : <%= article.user.username %></small><br>
+                                  <% end %>
                                   <small>Updated : <%= time_ago_in_words(article.updated_at) %> ago</small>
                               </div>
                           </div>
