@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_action :get_user, only: [:show, :edit, :update]
+  before_action :get_user, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:show, :index, :edit, :update]
-  before_action :user_is_admin, only: [:edit, :update]
+  before_action :user_is_admin, only: [:edit, :update, :destroy]
 
 
   def show
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      flash[:notice] = "Profile updated successfully."
+      flash[:notice] = "The account has been updated successfully."
       redirect_to @user
     else
       render 'edit'
@@ -27,16 +27,13 @@ class UsersController < ApplicationController
   end
 
 
-  # def destroy
-  #   if (current_user.admin? && current_user == @user) || !current_user.admin?
-  #     session[:user_id] = nil
-  #   end
+  def destroy
+    # current_user = nil
 
-
-  #   @user.destroy
-  #   flash[:notice] = "Account and all associated artices successfully deleted"
-  #   redirect_to root_path
-  # end
+    @user.destroy
+    flash[:notice] = "The account has been successfully cancelled."
+    redirect_to root_path
+  end
 
 
 
@@ -56,7 +53,4 @@ class UsersController < ApplicationController
       redirect_to @user
     end
   end
-
-
-
 end

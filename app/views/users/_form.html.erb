@@ -21,6 +21,18 @@
       </div>
 
 
+        <div class="form-group row field" style="margin: 10px;">
+          <%= f.label :password, class: "col-2 col-form-label" %>
+          <div class="col-9">
+            <%= f.password_field :password, autocomplete: "new-password", class: "form-control", id: "inputPassword3", placeholder: "New Password", type: "password"%>
+            <% if @minimum_password_length %>
+              <small class="form-text text-muted">
+                  <%= @minimum_password_length %> characters minimum.<br>
+                  <i>(leave blank if you don't want to change it)</i>
+              </small>
+            <% end %>
+          </div>
+        </div>
 
       <div class="form-group row" style="margin: 10px;">
             <div class="col-2"></div>

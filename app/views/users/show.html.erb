@@ -17,6 +17,7 @@
                     <%= link_to "Delete Profile", registration_path(current_user), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "btn btn-outline-danger", style: "margin: 10px;" %>
                   <% elsif current_user.admin? %>
                     <%= link_to "Edit Profile",  edit_user_path(@user), class: "btn btn-outline-primary", style: "margin: 10px;" %>
+                    <%= link_to "Delete Profile", user_path(@user), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "btn btn-outline-danger", style: "margin: 10px;" %>
                   <% end %>
                 <% end %>
 

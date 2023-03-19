@@ -23,6 +23,7 @@
                                       <%= link_to "Delete", registration_path(current_user), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "btn btn-outline-danger", style: "margin: 5px;" %>
                                     <% elsif current_user.admin? %>
                                       <%= link_to "Edit",  edit_user_path(user), class: "btn btn-outline-warning", style: "margin: 5px;" %>
+                                      <%= link_to "Delete", user_path(user), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "btn btn-outline-danger", style: "margin: 5px;" %>
                                     <% end %>
                                   <% end %>
                               </div>
