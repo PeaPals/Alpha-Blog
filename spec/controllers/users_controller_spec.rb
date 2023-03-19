@@ -94,26 +94,28 @@ RSpec.describe UsersController, type: :request do
         sign_in_as_admin
 
         before_user_count = User.count
-        patch user_path(dummy_user), params: {user: {username: 'new name'}}
+        patch user_path(dummy_user), params: {user: {username: 'new name', email: 'newemail@email.com', password: 'newpassword'}}
 
         expect(User.count - before_user_count).to eq(0)
         expect(response).to redirect_to(user_path(dummy_user))
 
         follow_redirect!
         expect(response.body).to include('new name')
+        expect(response.body).to include('newemail@email.com')
       end
 
       it ':: should not update other users profile (for signed-in users)' do
         signed_in_user = sign_in_as_user
 
         before_user_count = User.count
-        patch user_path(dummy_user), params: {user: {username: 'new name'}}
+        patch user_path(dummy_user), params: {user: {username: 'new name', email: 'newemail@email.com', password: 'newpassword'}}
 
         expect(User.count - before_user_count).to eq(0)
         expect(response).to redirect_to(user_path(dummy_user))
 
         follow_redirect!
         expect(response.body).to include('test')
+        expect(response.body).to include('test@test.com')
       end
 
       it ':: should update own profile (for signed-in users)' do
@@ -131,10 +133,49 @@ RSpec.describe UsersController, type: :request do
 
       it ':: should not update users (for non-signed-in users)' do
         before_user_count = User.count
-        patch user_path(dummy_user), params: {user: {username: 'new name', email: 'new_user@test.com'}}
+        patch user_path(dummy_user), params: {user: {username: 'new name', email: 'new_user@test.com', password: 'newpassword'}}
 
         expect(User.count - before_user_count).to eq(0)
         expect(response).to redirect_to(user_path(dummy_user))
+      end
+    end
+  end
+
+  # =============================================================================================== #
+
+  context ':: DELETE' do
+    context ':: DESTROY request tests' do
+      let!(:dummy_user) {User.create(username: 'test', email: 'test@test.com', password: 'password', admin: false)}
+
+      it ':: should destroy any user (for admins)' do
+        sign_in_as_admin
+
+        before_user_count = User.count
+        delete user_path(dummy_user)
+
+        expect(User.count - before_user_count).to eq(-1)
+        expect(User.find_by_id(dummy_user.id)).to eq(nil)
+        expect(response).to redirect_to(root_path)
+      end
+
+      it ':: should not destroy other user (for signed-in users)' do
+        sign_in_as_user
+
+        before_user_count = User.count
+        delete user_path(dummy_user)
+
+        expect(User.count - before_user_count).to eq(0)
+        expect(User.find_by_id(dummy_user.id)).to_not eq(nil)
+        expect(response).to redirect_to(user_path(dummy_user))
+      end
+
+      it ':: should not destroy any user (for non-signed-in users)' do
+        before_user_count = User.count
+        delete user_path(dummy_user)
+
+        expect(User.count - before_user_count).to eq(0)
+        expect(User.find_by_id(dummy_user.id)).to_not eq(nil)
+        expect(response).to redirect_to(user_session_path)
       end
     end
   end
