@@ -24,6 +24,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'will_paginate', '~> 3.3'
 gem 'devise'
 
+gem 'activeadmin'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
