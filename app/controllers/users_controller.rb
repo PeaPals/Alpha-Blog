@@ -5,7 +5,31 @@ class UsersController < ApplicationController
 
 
   def show
-    @articles = @user.articles.paginate(page: params[:page], per_page: 6)
+    # @articles = @user.articles.paginate(page: params[:page], per_page: 6)
+
+    if !params[:show]
+      params[:show] = 'articles'
+    end
+
+    if params[:show] == 'articles'
+      @resource = @user.articles.paginate(page: params[:page], per_page: 6)
+      @articles = @user.articles.paginate(page: params[:page], per_page: 6)
+      @resource_title = 'Articles'
+      @resource_view = 'shared/articles-view'
+
+    elsif params[:show] == 'followers'
+      @resource = @user.followers.paginate(page: params[:page], per_page: 6)
+      @users = @user.followers.paginate(page: params[:page], per_page: 6)
+      @resource_title = 'Followers'
+      @resource_view = 'shared/users-view'
+
+    elsif params[:show] == 'following'
+      @resource = @user.followings.paginate(page: params[:page], per_page: 6)
+      @users = @user.followings.paginate(page: params[:page], per_page: 6)
+      @resource_title = 'Following'
+      @resource_view = 'shared/users-view'
+    end
+
   end
 
 
