@@ -7,7 +7,16 @@
                   <div class="col-sm" style="margin: 16px;">
                       <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 20rem; align-items: center;">
                           <div class="card-header text-muted" style="background-color: white;">
-                            <button class="btn btn-sm btn-dark disabled" style="margin-left: 10px; height: 30px; width: 85px;"><%=pluralize(user.articles.count, "Article")%></button>
+                            <button class="btn btn-sm btn-info"><%=pluralize(user.articles.count, "Article")%></button>
+
+                            <% if current_user != user %>
+                              <% follow_back = Follow.find_by(following_user_id: user.id, followed_user_id: current_user.id) %>
+                              <% if Follow.find_by(following_user_id: current_user.id, followed_user_id: user.id) %>
+                                <%= link_to "#{'⇜' if follow_back}✓ Following", unfollow_user_path(user), method: :post, class: "btn btn-warning btn-sm fw-bold"%>
+                              <% else %>
+                                <%= link_to "#{'⇜' if follow_back}✛ Follow", follow_user_path(user), method: :post, class: "btn btn-warning btn-sm fw-bold"%>
+                              <% end %>
+                            <% end %>
                           </div>
 
                           <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Profile-Image" class="rounded-circle" width="150" style="margin-top: 15px;">

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :get_user, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:show, :index, :edit, :update]
+  before_action :get_user, only: [:show, :edit, :update, :destroy, :follow, :unfollow]
+  before_action :authenticate_user!, except: [:show, :index, :edit, :update, :follow, :unfollow]
   before_action :user_is_admin, only: [:edit, :update, :destroy]
 
 
@@ -34,6 +34,19 @@ class UsersController < ApplicationController
     flash[:notice] = "The account has been successfully cancelled."
     redirect_to root_path
   end
+
+
+  def follow
+    @user.followers << current_user
+    redirect_to user_index_path
+  end
+
+
+  def unfollow
+    Follow.find_by(following_user_id: current_user.id, followed_user_id: @user.id).destroy
+    redirect_to user_index_path
+  end
+
 
 
 
