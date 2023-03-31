@@ -10,7 +10,17 @@ class ArticlesController < ApplicationController
   end
 
   def index
-    @articles = Article.paginate(page: params[:page], per_page: 6)
+    if params[:show] && params[:show] == 'my-feed'
+      @articles = []
+
+      current_user.followings.each do |following_user|
+        @articles += following_user.articles
+      end
+
+      @articles = @articles.paginate(page: params[:page], per_page: 6)
+    else
+      @articles = Article.paginate(page: params[:page], per_page: 6)
+    end
   end
 
   def new

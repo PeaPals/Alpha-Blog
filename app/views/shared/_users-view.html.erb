@@ -9,7 +9,7 @@
                           <div class="card-header text-muted" style="background-color: white;">
                             <button class="btn btn-sm btn-info"><%=pluralize(user.articles.count, "Article")%></button>
 
-                            <% if current_user != user %>
+                            <% if user_signed_in? && current_user != user %>
                               <% follow_back = Follow.find_by(following_user_id: user.id, followed_user_id: current_user.id) %>
                               <% if Follow.find_by(following_user_id: current_user.id, followed_user_id: user.id) %>
                                 <%= link_to "#{'⇜' if follow_back}✓ Following", unfollow_user_path(user), method: :post, class: "btn btn-warning btn-sm fw-bold"%>
