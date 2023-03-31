@@ -3,14 +3,8 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :request do
 
-  let(:sign_in_as_admin) do
-    user = User.create(username: "admin_user", email: "admin_user@user.com", password: "password", admin: true)
-    post(user_session_path, params: {user: {email: user.email, password: "password"}})
-    return user
-  end
-
   let(:sign_in_as_user) do
-    user = User.create(username: "non_admin_user", email: "non_admin_user@user.com", password: "password", admin: false)
+    user = User.create(username: "non_admin_user", email: "non_admin_user@user.com", password: "password")
     post(user_session_path, params: {user: {email: user.email, password: "password"}})
     return user
   end
@@ -19,9 +13,9 @@ RSpec.describe UsersController, type: :request do
 
   context ':: GET' do
     context ':: INDEX request tests' do
-      it ':: should get index' do
+      it ':: should not get index (for non-signed-in user)' do
         get user_index_path
-        expect(response).to be_successful
+        expect(response).to_not be_successful
       end
 
       it ':: should get index (for signed-in users)' do
@@ -33,13 +27,12 @@ RSpec.describe UsersController, type: :request do
     end
 
     context ':: SHOW request tests' do
-      let(:dummy_user) {User.create(username: "test", email: "test@test.com", password: "password", admin: false)}
+      let(:dummy_user) {User.create(username: "test", email: "test@test.com", password: "password")}
 
-      it ':: should get show' do
+      it ':: should get not show (for non-signed-in user)' do
         get user_path(dummy_user)
 
-        expect(response).to be_successful
-        expect(response.body).to include(dummy_user.username)
+        expect(response).to_not be_successful
       end
 
       it ':: should get show (for signed-in users)' do
@@ -53,7 +46,7 @@ RSpec.describe UsersController, type: :request do
     end
 
     context ':: EDIT request tests' do
-      let(:dummy_user) {User.create(username: "test", email: "test@test.com", password: "password", admin: false)}
+      let(:dummy_user) {User.create(username: "test", email: "test@test.com", password: "password")}
 
       it ':: should not get edit (for non-signed-in users)' do
         get edit_user_path(dummy_user)
@@ -73,14 +66,6 @@ RSpec.describe UsersController, type: :request do
         get edit_user_registration_path
         expect(response).to be_successful
       end
-
-
-      it ':: should get edit (for admins)' do
-        sign_in_as_admin
-
-        get edit_user_path(dummy_user)
-        expect(response).to be_successful
-      end
     end
   end
 
@@ -88,21 +73,7 @@ RSpec.describe UsersController, type: :request do
 
   context ':: PATCH' do
     context ':: UPDATE request tests' do
-      let!(:dummy_user) {User.create(username: 'test', email: 'test@test.com', password: 'password', admin: false)}
-
-      it ':: should update user profile (for admins)' do
-        sign_in_as_admin
-
-        before_user_count = User.count
-        patch user_path(dummy_user), params: {user: {username: 'new name', email: 'newemail@email.com', password: 'newpassword'}}
-
-        expect(User.count - before_user_count).to eq(0)
-        expect(response).to redirect_to(user_path(dummy_user))
-
-        follow_redirect!
-        expect(response.body).to include('new name')
-        expect(response.body).to include('newemail@email.com')
-      end
+      let!(:dummy_user) {User.create(username: 'test', email: 'test@test.com', password: 'password')}
 
       it ':: should not update other users profile (for signed-in users)' do
         signed_in_user = sign_in_as_user
@@ -136,7 +107,7 @@ RSpec.describe UsersController, type: :request do
         patch user_path(dummy_user), params: {user: {username: 'new name', email: 'new_user@test.com', password: 'newpassword'}}
 
         expect(User.count - before_user_count).to eq(0)
-        expect(response).to redirect_to(user_path(dummy_user))
+        expect(response).to redirect_to(user_session_path)
       end
     end
   end
@@ -145,18 +116,7 @@ RSpec.describe UsersController, type: :request do
 
   context ':: DELETE' do
     context ':: DESTROY request tests' do
-      let!(:dummy_user) {User.create(username: 'test', email: 'test@test.com', password: 'password', admin: false)}
-
-      it ':: should destroy any user (for admins)' do
-        sign_in_as_admin
-
-        before_user_count = User.count
-        delete user_path(dummy_user)
-
-        expect(User.count - before_user_count).to eq(-1)
-        expect(User.find_by_id(dummy_user.id)).to eq(nil)
-        expect(response).to redirect_to(root_path)
-      end
+      let!(:dummy_user) {User.create(username: 'test', email: 'test@test.com', password: 'password')}
 
       it ':: should not destroy other user (for signed-in users)' do
         sign_in_as_user

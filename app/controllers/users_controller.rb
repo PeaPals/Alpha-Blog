@@ -1,11 +1,10 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
   before_action :get_user, only: [:show, :edit, :update, :destroy, :follow, :unfollow]
-  before_action :authenticate_user!, except: [:show, :index, :edit, :update, :follow, :unfollow]
-  before_action :user_is_admin, only: [:edit, :update, :destroy]
+  before_action :user_is_not_current_user, only: [:edit, :update, :destroy]
 
 
   def show
-    # @articles = @user.articles.paginate(page: params[:page], per_page: 6)
 
     if !params[:show]
       params[:show] = 'articles'
@@ -84,8 +83,8 @@ class UsersController < ApplicationController
     params.require(:user).permit(:username, :email, :password)
   end
 
-  def user_is_admin
-    if !current_user || !current_user.admin?
+  def user_is_not_current_user
+    if current_user != @user
       flash[:alert] = "Only admins can perform this action."
       redirect_to @user
     end

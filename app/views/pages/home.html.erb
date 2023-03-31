@@ -4,7 +4,7 @@
         <p class="lead fw-bold" style="color: slategrey; font-style: italic;">The world lives here</p>
 
         <% if user_signed_in? %>
-          <%= link_to "My Feed", articles_path, class: "btn btn-outline-info btn-lg fw-bold" %>
+          <%= link_to "My Feed", "/articles?show=my-feed", class: "btn btn-outline-info btn-lg fw-bold" %>
         <% else %>
           <%= link_to "Get Started", new_user_registration_path, class: "btn btn-outline-info btn-lg fw-bold" %>
         <% end %>

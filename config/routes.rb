@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   resources :articles
   resources :users, except: [:new], as: :user
-  resources :categories, except: [:destroy]
+  resources :categories, only: [:show, :index]
 
   post '/users/:id/follow', to: "users#follow", as: "follow_user"
   post '/users/:id/unfollow', to: "users#unfollow", as: "unfollow_user"
