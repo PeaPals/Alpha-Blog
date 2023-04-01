@@ -1,0 +1,10 @@
+<div id="searched-item" class="card bg-transparent">
+    <div class="card-body" id="searched-item-card-body">
+        <h6>
+          <%= content_tag :img, "", class: "rounded-circle", alt: "search-image", width: 60, src: asset_url(assetlink) %>
+          <%= link_to title, link, class:"card-title", style: "text-decoration: none;" %>
+        </h6>
+        <%= content_tag :span, label, class: "badge bg-#{badge}", style: "float: right;" %>
+    </div>
+    <div class="container"></div>
+</div>

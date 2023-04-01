@@ -1,5 +1,12 @@
 <div class="container" id="home-container">
-    <div class="text-center text-white " id="home-headings">
+
+    <% if @searched_results %>
+      <div class='searched-results'>
+        <%= render 'search_results', results: @searched_results %>
+      </div>
+    <% end %>
+
+    <div class="text-center text-white" id="home-headings">
         <h1 class="display-4 text-white fw-bold" style="font-size: 46px;">Welcome to Alpha-Blog</h1>
         <p class="lead fw-bold" style="color: slategrey; font-style: italic;">The world lives here</p>
 

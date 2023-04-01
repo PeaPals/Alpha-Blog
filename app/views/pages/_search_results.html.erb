@@ -1,0 +1,31 @@
+<div class="container">
+  <% showed_results = false %>
+
+  <%# Showing all users %>
+  <% results[:users].each do |user| %>
+    <% showed_results = true %>
+    <%= render 'search_item', title: user.username, link: user, label: "User", badge: "primary", assetlink: 'user-logo-bw.png' %>
+  <% end %>
+
+  <%# Showing all articles %>
+  <% results[:articles].each do |article| %>
+    <% showed_results = true %>
+    <%= render 'search_item', title: article.title, link: article, label: "Article", badge: "warning", assetlink: 'article-logo.jpg' %>
+  <% end %>
+
+  <%# Showing all categories %>
+  <% results[:categories].each do |category| %>
+    <% showed_results = true %>
+    <%= render 'search_item', title: category.name, link: category, label: "Category", badge: "danger", assetlink: 'category-logo.jpg' %>
+  <% end %>
+
+
+  <% if !showed_results %>
+    <div class="card shadow p-3 mb-5 bg-transparent rounded">
+        <div class="card-body">
+            <h5 class="card-title text-warning">Such Empty</h5>
+            <small><span class="text-secondary">Try using some other searchphrase...</span></small>
+        </div>
+    </div>
+  <% end %>
+</div>
