@@ -4,10 +4,13 @@
           <% for j in 0..(columns-1) do %>
               <% user = @users[(i*columns)+j] %>
               <% if user %>
-                  <div class="col-sm" style="margin: 16px;">
-                      <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 20rem; align-items: center;">
+                  <div class=<%="col-#{12/columns}"%>>
+                      <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 19rem; align-items: center;">
                           <div class="card-header text-muted" style="background-color: white;">
-                            <button class="btn btn-sm btn-info"><%=pluralize(user.articles.count, "Article")%></button>
+
+                            <% if user_signed_in? && current_user == user %>
+                              <button class="btn btn-sm btn-info fw-bold">You</button>
+                            <% end %>
 
                             <% if user_signed_in? && current_user != user %>
                               <% follow_back = Follow.find_by(following_user_id: user.id, followed_user_id: current_user.id) %>
@@ -19,23 +22,19 @@
                             <% end %>
                           </div>
 
-                          <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Profile-Image" class="rounded-circle" width="150" style="margin-top: 15px;">
-                          <div class="card-body">
-                              <h5 class="card-title"><%= user.username %></h5>
-                              <p class="card-text text-secondary"><%= user.email %></p>
-                              <div>
-                                  <%=link_to 'Show', user_path(user), class: "btn btn-outline-primary" %>
+                          <%= link_to user_path(user) do %>
+                            <% gender = "male"; gender = "female" if (user.id%2) == 0 %>
+                            <% asset_path = asset_url('user-logo.png') %>
+                            <img src=<%="https://xsgames.co/randomusers/avatar.php?g=#{gender}&id=#{user.id}"%> onerror='this.src = "<%= asset_path %>";' alt="Profile Image" class="rounded-circle" width="150" style="margin-top: 15px;">
+                          <% end %>
 
-                                  <% if user_signed_in? %>
-                                    <% if current_user == user %>
-                                      <%= link_to "Edit", edit_user_registration_path, class: "btn btn-outline-warning", style: "margin: 5px;" %>
-                                      <%= link_to "Delete", registration_path(current_user), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "btn btn-outline-danger", style: "margin: 5px;" %>
-                                    <% end %>
-                                  <% end %>
-                              </div>
-                              <br><br>
-                              <div class="card-footer text-muted" style="background-color: white;">
-                                <small>Joined <%= time_ago_in_words(user.created_at) %> ago</small>
+                          <div class="card-body">
+                              <h5 class="card-title" style="text-align: center;"><b><%= user.username %></b></h5>
+
+                              <div class="row" style="align-items: flex-end; margin-top: 2rem;">
+                                <a href=<%= user_path(user) + '?show=articles' %> class="btn btn-md btn-light col-4" style="overflow-wrap: normal;"><b><%=pluralize(user.articles.count, "Article")%></b></a>
+                                <a href=<%= user_path(user) + '?show=followers' %> class="btn btn-md btn-light col-4" style="overflow-wrap: normal;"><b><%=pluralize(user.followers.count, "Follower")%></b></a>
+                                <a href=<%= user_path(user) + '?show=following' %> class="btn btn-md btn-light col-4" style="overflow-wrap: normal;"><b><%=user.followings.count%> Following</b></a>
                               </div>
                           </div>
                       </div>

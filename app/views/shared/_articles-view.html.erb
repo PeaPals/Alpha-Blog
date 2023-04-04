@@ -4,7 +4,7 @@
           <% for j in 0..(columns-1) do %>
               <% article = @articles[(i*columns)+j] %>
               <% if article %>
-                  <div class="col-sm" style="margin: 16px;">
+                  <div class=<%="col-#{12/columns}"%>>
                       <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 19rem; align-items: center;">
                           <%# TODO : <img class="card-img-top" src="..." alt="Card image cap"> %>
                           <div class="card-body">

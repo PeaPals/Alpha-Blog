@@ -6,7 +6,11 @@
         <div class="card shadow-lg p-3 mb-5 bg-white rounded">
           <div class="card-body">
             <div class="d-flex flex-column align-items-center text-center">
-              <%= content_tag :img, "", class: "rounded-circle", alt: "Profile-Image", width: 150, src: asset_url('user-logo.png') %>
+
+              <% gender = "male"; gender = "female" if (@user.id%2) == 0 %>
+              <% asset_path = asset_url('user-logo.png') %>
+
+              <%= content_tag :img, "", class: "rounded-circle", alt: "Profile-Image", width: 150, src: "https://xsgames.co/randomusers/avatar.php?g=#{gender}&id=#{@user.id}", onerror: "this.src = '#{asset_path}';" %>
               <div class="mt-3">
                 <h4><%= @user.username %></h4>
                 <p class="text-secondary mb-1" style="margin: 10px;">Alpha Blogger</p>
