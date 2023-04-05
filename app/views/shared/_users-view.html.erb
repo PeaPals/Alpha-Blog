@@ -30,6 +30,7 @@
 
                           <div class="card-body">
                               <h5 class="card-title" style="text-align: center; margin-top: 1rem;"><b><%= user.username %></b></h5>
+                              <div class="text-secondary" style="text-align: center; font-style: italic;">Joined : <%= time_ago_in_words(user.created_at) %> ago</div>
 
                               <div class="row" style="align-items: flex-end; margin-top: 1.5rem;">
                                 <a href=<%= user_path(user) + '?show=articles' %> class="btn btn-md btn-light col-4" style="overflow-wrap: normal;"><b><%=user.articles.count%></b> Articles</a>
