@@ -15,9 +15,9 @@
                             <% if user_signed_in? && current_user != user %>
                               <% follow_back = Follow.find_by(following_user_id: user.id, followed_user_id: current_user.id) %>
                               <% if Follow.find_by(following_user_id: current_user.id, followed_user_id: user.id) %>
-                                <%= link_to "#{'⇜' if follow_back}✓ Following", unfollow_user_path(user), method: :post, class: "btn btn-warning btn-sm fw-bold"%>
+                                <%= link_to "✓ Following #{'back' if follow_back}", unfollow_user_path(user), method: :post, class: "btn btn-warning btn-sm fw-bold"%>
                               <% else %>
-                                <%= link_to "#{'⇜' if follow_back}✛ Follow", follow_user_path(user), method: :post, class: "btn btn-warning btn-sm fw-bold"%>
+                                <%= link_to "✛ Follow #{'back' if follow_back}", follow_user_path(user), method: :post, class: "btn btn-warning btn-sm fw-bold"%>
                               <% end %>
                             <% end %>
                           </div>
@@ -29,13 +29,16 @@
                           <% end %>
 
                           <div class="card-body">
-                              <h5 class="card-title" style="text-align: center;"><b><%= user.username %></b></h5>
+                              <h5 class="card-title" style="text-align: center; margin-top: 1rem;"><b><%= user.username %></b></h5>
 
-                              <div class="row" style="align-items: flex-end; margin-top: 2rem;">
-                                <a href=<%= user_path(user) + '?show=articles' %> class="btn btn-md btn-light col-4" style="overflow-wrap: normal;"><b><%=pluralize(user.articles.count, "Article")%></b></a>
-                                <a href=<%= user_path(user) + '?show=followers' %> class="btn btn-md btn-light col-4" style="overflow-wrap: normal;"><b><%=pluralize(user.followers.count, "Follower")%></b></a>
-                                <a href=<%= user_path(user) + '?show=following' %> class="btn btn-md btn-light col-4" style="overflow-wrap: normal;"><b><%=user.followings.count%> Following</b></a>
+                              <div class="row" style="align-items: flex-end; margin-top: 1.5rem;">
+                                <a href=<%= user_path(user) + '?show=articles' %> class="btn btn-md btn-light col-4" style="overflow-wrap: normal;"><b><%=user.articles.count%></b> Articles</a>
+                                <a href=<%= user_path(user) + '?show=followers' %> class="btn btn-md btn-light col-4" style="overflow-wrap: normal;"><b><%=user.followers.count%></b> Follower</a>
+                                <a href=<%= user_path(user) + '?show=following' %> class="btn btn-md btn-light col-4" style="overflow-wrap: normal;"><b><%=user.followings.count%></b> Following</a>
                               </div>
+
+
+                              <%= link_to "Show Profile", user_path(user), class: "btn btn-outline-primary btn-md", style: "left: 25%; margin-top: 1rem; position: relative;"%>
                           </div>
                       </div>
                   </div>

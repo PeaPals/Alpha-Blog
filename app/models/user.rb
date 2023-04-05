@@ -24,7 +24,7 @@ class User < ApplicationRecord
   has_many :received_follows, foreign_key: :followed_user_id, class_name: "Follow"
 
   # Will return an array of users who follow the user instance
-  has_many :followers, through: :received_follows, source: :following_user
+  has_many :followers, through: :received_follows, source: :following_user, dependent: :destroy
 
   #####################
 
@@ -32,5 +32,5 @@ class User < ApplicationRecord
   has_many :given_follows, foreign_key: :following_user_id, class_name: "Follow"
 
   # returns an array of other users who the user has followed
-  has_many :followings, through: :given_follows, source: :followed_user
+  has_many :followings, through: :given_follows, source: :followed_user, dependent: :destroy
 end
