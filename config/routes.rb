@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   root "pages#home"
 
   resources :articles
-  resources :users, except: [:new], as: :user
+  resources :users, except: [:new, :edit, :update], as: :user
   resources :categories, only: [:show, :index]
 
   post '/users/:id/follow', to: "users#follow", as: "follow_user"

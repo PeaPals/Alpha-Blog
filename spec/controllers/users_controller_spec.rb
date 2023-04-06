@@ -46,19 +46,6 @@ RSpec.describe UsersController, type: :request do
     end
 
     context ':: EDIT request tests' do
-      let(:dummy_user) {User.create(username: "test", email: "test@test.com", password: "password")}
-
-      it ':: should not get edit (for non-signed-in users)' do
-        get edit_user_path(dummy_user)
-        expect(response).to_not be_successful
-      end
-
-      it ':: should not get edit for other users (for signed-in users)' do
-        sign_in_as_user
-
-        get edit_user_path(dummy_user)
-        expect(response).to_not be_successful
-      end
 
       it ':: should get edit for your own profile (for signed-in users)' do
         sign_in_as_user
@@ -73,22 +60,6 @@ RSpec.describe UsersController, type: :request do
 
   context ':: PATCH' do
     context ':: UPDATE request tests' do
-      let!(:dummy_user) {User.create(username: 'test', email: 'test@test.com', password: 'password')}
-
-      it ':: should not update other users profile (for signed-in users)' do
-        signed_in_user = sign_in_as_user
-
-        before_user_count = User.count
-        patch user_path(dummy_user), params: {user: {username: 'new name', email: 'newemail@email.com', password: 'newpassword'}}
-
-        expect(User.count - before_user_count).to eq(0)
-        expect(response).to redirect_to(user_path(dummy_user))
-
-        follow_redirect!
-        expect(response.body).to include('test')
-        expect(response.body).to include('test@test.com')
-      end
-
       it ':: should update own profile (for signed-in users)' do
         signed_in_user = sign_in_as_user
 
@@ -100,14 +71,6 @@ RSpec.describe UsersController, type: :request do
 
         follow_redirect!
         expect(response.body).to include('Your account has been updated successfully.')
-      end
-
-      it ':: should not update users (for non-signed-in users)' do
-        before_user_count = User.count
-        patch user_path(dummy_user), params: {user: {username: 'new name', email: 'new_user@test.com', password: 'newpassword'}}
-
-        expect(User.count - before_user_count).to eq(0)
-        expect(response).to redirect_to(user_session_path)
       end
     end
   end

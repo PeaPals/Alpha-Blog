@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :get_user, only: [:show, :edit, :update, :destroy, :follow, :unfollow]
-  before_action :user_is_not_current_user, only: [:edit, :update, :destroy]
+  before_action :get_user, only: [:show, :destroy, :follow, :unfollow]
+  before_action :user_is_not_current_user, only: [:destroy]
 
 
   def show
@@ -34,19 +34,6 @@ class UsersController < ApplicationController
 
   def index
     @users = User.paginate(page: params[:page], per_page: 6)
-  end
-
-
-  def edit
-  end
-
-  def update
-    if @user.update(user_params)
-      flash[:notice] = "The account has been updated successfully."
-      redirect_to @user
-    else
-      render 'edit'
-    end
   end
 
 
