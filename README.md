@@ -1,24 +1,13 @@
-# README
+# Alpha-Blog
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+project made through the course : [The Complete Ruby on Rails Developer Course](https://www.udemy.com/course/the-complete-ruby-on-rails-developer-course/)
 
-Things you may want to cover:
+## Running This Project
 
-* Ruby version
+To run this porject follow the steps below :-
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- go to `config/database.yml` and change the port `5433` to the port on which your postgresql service runs/will run
+- start the postgresql service using `sudo service postgresql start`
+- check the status of service using `sudo service postgresql status` to ensure the port is correct and the service is up
+- if you are running for the first time and/or not have necessary tables in postgres defined under `config/database.yml`, use `rake db:setup` to make necessary tables and seeds (`rake db:setup` is equivalent to running `rake db:create` -> `rake db:migrate` -> `rake db:seed` in order)
+- run `rails server` or `rails s` to start the rails server
