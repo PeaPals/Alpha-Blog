@@ -1,6 +1,6 @@
-import { CardHeader } from './header';
-import { CardFooter } from './footer';
-import { CardBody } from './body';
+import { CardHeader } from './Header';
+import { CardFooter } from './Footer';
+import { CardBody } from './Body';
 
 
 export function Card({
@@ -8,13 +8,14 @@ export function Card({
     cardFooter,
     cardTitle,
     cardText,
-    additionalComponent
+    AdditionalComponent,
+    children
 }) {
     return (
         <div className="container">
-            <div class="card text-center shadow p-3 mb-5 bg-white rounded">
+            <div className="card text-center shadow p-3 mb-5 bg-white rounded">
                 <CardHeader headerText={cardHeader} />
-                <CardBody cardTitle={cardTitle} cardText={cardText} additionalComponent={additionalComponent} />
+                <CardBody cardTitle={cardTitle} cardText={cardText}>{children}</CardBody>
                 <CardFooter footerText={cardFooter} />
             </div>
         </div>

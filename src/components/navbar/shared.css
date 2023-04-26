@@ -6,23 +6,6 @@
   background-color: #00BFFF !important;
 }
 
-.search-bar::placeholder {
-    color: white;
-  }
-
-.search-bar {
-    width: 20rem;
-    background-color: black;
-    border-color: var(--bs-dark);
-    color: white;
-}
-
-.search-bar:focus {
-    background-color: black;
-    border-color: var(--bs-dark);
-    color: white;
-}
-
 #logo {
     float: left;
     font-size: 1.7em;
