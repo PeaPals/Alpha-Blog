@@ -16,13 +16,16 @@ export function EditArticle({}) {
     }
 
     return(
-        <ArticleForm
-            categories={[]}   // TODO
-            title={title}
-            setTitle={setTitle}
-            description={description}
-            setDescription={setDescription}
-            onSubmit={onSubmit}
-        />
+        <div id="page-content">
+            <h1 class="text-center mt-4">Edit Article</h1>
+            <ArticleForm
+                categories={[]}   // TODO
+                title={title}
+                setTitle={setTitle}
+                description={description}
+                setDescription={setDescription}
+                onSubmit={onSubmit}
+            />
+        </div>
     )
 }

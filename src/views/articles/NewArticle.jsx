@@ -12,13 +12,16 @@ export function NewArticle({}) {
     }
 
     return(
-        <ArticleForm
-            categories={[]}   // TODO
-            title={title}
-            setTitle={setTitle}
-            description={description}
-            setDescription={setDescription}
-            onSubmit={onSubmit}
-        />
+        <div id="page-content">
+            <h1 class="text-center mt-4">Create New Article</h1>
+            <ArticleForm
+                categories={[]}   // TODO
+                title={title}
+                setTitle={setTitle}
+                description={description}
+                setDescription={setDescription}
+                onSubmit={onSubmit}
+            />
+        </div>
     )
 }
