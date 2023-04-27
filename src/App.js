@@ -9,9 +9,19 @@ import { Login, Signup, EditAccount } from './views/accounts';
 import { NewArticle, EditArticle, ShowArticle, ShowArticles } from './views/articles';
 import { NewCategory, EditCategory, ShowCategory, ShowCategories } from './views/categories';
 
-
+import { Message, Error } from './components';
 function Tester() {
-  return (<></>)
+  return (
+    <>
+      <Message list={[
+        {type: "danger", msg: "danger 1"},
+        {type: "success", msg: "success 1"},
+        {type: "danger", msg: "danger 2"}
+      ]} />
+
+      <Error errorName={"Some-Name"} errorMessages={["Message 1", "Message 2", "Message 3"]}/>
+    </>
+  )
 }
 
 
