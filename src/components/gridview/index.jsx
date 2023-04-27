@@ -1,6 +1,6 @@
 import { Card } from "../card"
 
-export function GridView({list, columns=3, children}) {
+export function GridView({list, columns=3}) {
     return (
         <div className="container">
             <div className={`row row-cols-${columns}`}>

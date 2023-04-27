@@ -2,6 +2,7 @@
 
 # temporary gitignores
 *.erb
+stylesheets/
 
 # dependencies
 /node_modules

@@ -8,7 +8,6 @@ export function Card({
     cardFooter,
     cardTitle,
     cardText,
-    AdditionalComponent,
     children
 }) {
     return (
