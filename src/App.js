@@ -8,20 +8,10 @@ import { Home } from './views/pages';
 import { Login, Signup, EditAccount } from './views/accounts';
 import { NewArticle, EditArticle, ShowArticle, ShowArticles } from './views/articles';
 import { ShowCategory, ShowCategories } from './views/categories';
+import { ShowUser, ShowUsers } from './views/users';
 
-import { Message, Error } from './components';
 function Tester() {
-  return (
-    <>
-      <Message list={[
-        {type: "danger", msg: "danger 1"},
-        {type: "success", msg: "success 1"},
-        {type: "danger", msg: "danger 2"}
-      ]} />
-
-      <Error errorName={"Some-Name"} errorMessages={["Message 1", "Message 2", "Message 3"]}/>
-    </>
-  )
+  return (<></>)
 }
 
 
@@ -31,6 +21,7 @@ function App() {
       <NavBar signedIn={true}/>
 
       <Routes>
+
         {/* Basic Route */}
         <Route path='/testing' exact element={<Tester />} />
         <Route path='/' exact element={<Home />} />
@@ -49,6 +40,11 @@ function App() {
         {/* Categories Routes */}
         <Route path='/categories' exact element={<ShowCategories />} />
         <Route path='/categories/:id' exact element={<ShowCategory />} />
+
+        {/* Users Routes */}
+        <Route path='/users' exact element={<ShowUsers />} />
+        <Route path='/users/:id' exact element={<ShowUser />} />
+
       </Routes>
     </Router>
   );
