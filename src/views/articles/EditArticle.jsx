@@ -17,7 +17,7 @@ export function EditArticle({}) {
 
     return(
         <div id="page-content">
-            <h1 class="text-center mt-4">Edit Article</h1>
+            <h1 className="text-center mt-4">Edit Article</h1>
             <ArticleForm
                 categories={[]}   // TODO
                 title={title}

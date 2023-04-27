@@ -12,7 +12,7 @@ export function EditCategory({}) {
 
     return(
         <div id="page-content">
-            <h1 class="text-center mt-4">Edit category</h1>
+            <h1 className="text-center mt-4">Edit category</h1>
             <CategoryForm
                 name={name}
                 setName={setName}

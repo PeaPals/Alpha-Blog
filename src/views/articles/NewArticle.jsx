@@ -13,7 +13,7 @@ export function NewArticle({}) {
 
     return(
         <div id="page-content">
-            <h1 class="text-center mt-4">Create New Article</h1>
+            <h1 className="text-center mt-4">Create New Article</h1>
             <ArticleForm
                 categories={[]}   // TODO
                 title={title}
