@@ -61,10 +61,10 @@ export function NavBar({signedIn = false}) {
                         !signedIn && <>
 
                             <li className="nav-item">
-                                <Link to="new_user_session_path" className="nav-link" id="home-nav-link">Login</Link>
+                                <Link to="/accounts/login" className="nav-link" id="home-nav-link">Login</Link>
                             </li>
                             <li className="nav-item">
-                                <Link to="new_user_registration_path" className="nav-link" id="home-nav-link">Signup</Link>
+                                <Link to="/accounts/signup" className="nav-link" id="home-nav-link">Signup</Link>
                             </li>
                         </>
                     )}

@@ -5,6 +5,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import { NavBar } from './components';
 import { Home } from './views/pages';
+import { Login, Signup, EditAccount } from './views/accounts';
 import { NewArticle, EditArticle, ShowArticle, ShowArticles } from './views/articles';
 import { NewCategory, EditCategory, ShowCategory, ShowCategories } from './views/categories';
 
@@ -17,11 +18,17 @@ function Tester() {
 function App() {
   return (
     <Router>
-      <NavBar signedIn={true}/>
+      <NavBar signedIn={false}/>
 
       <Routes>
+        {/* Basic Route */}
         <Route path='/testing' exact element={<Tester />} />
         <Route path='/' exact element={<Home />} />
+
+        {/* Accounts Routes */}
+        <Route path='/accounts/login' exact element={<Login />} />
+        <Route path='/accounts/signup' exact element={<Signup />} />
+        <Route path='/accounts/edit' exact element={<EditAccount />} />
 
         {/* Articles Routes */}
         <Route path='/articles' exact element={<ShowArticles />} />
