@@ -7,7 +7,7 @@ import { NavBar } from './components';
 import { Home } from './views/pages';
 import { Login, Signup, EditAccount } from './views/accounts';
 import { NewArticle, EditArticle, ShowArticle, ShowArticles } from './views/articles';
-import { NewCategory, EditCategory, ShowCategory, ShowCategories } from './views/categories';
+import { ShowCategory, ShowCategories } from './views/categories';
 
 import { Message, Error } from './components';
 function Tester() {
@@ -28,7 +28,7 @@ function Tester() {
 function App() {
   return (
     <Router>
-      <NavBar signedIn={false}/>
+      <NavBar signedIn={true}/>
 
       <Routes>
         {/* Basic Route */}
@@ -49,8 +49,6 @@ function App() {
         {/* Categories Routes */}
         <Route path='/categories' exact element={<ShowCategories />} />
         <Route path='/categories/:id' exact element={<ShowCategory />} />
-        <Route path='/categories/new' exact element={<NewCategory />} />
-        <Route path='/categories/:id/edit' exact element={<EditCategory />} />
       </Routes>
     </Router>
   );
