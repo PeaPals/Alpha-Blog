@@ -1,3 +1,3 @@
-export function CardHeader({headerText}) {
-    return <div className="card-header">{headerText}</div>
+export function CardHeader({ headerText }) {
+  return <div className="card-header">{headerText}</div>;
 }
