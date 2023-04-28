@@ -1,4 +1,5 @@
 import { GridView } from "../../components/gridview";
+import { CategoryCard } from "./CategoryCard";
 
 export function ShowCategories() {
   const allCategories = [];
@@ -8,7 +9,13 @@ export function ShowCategories() {
       <h1 className="text-center mt-4">Listing All Categories</h1>
       <br />
 
-      <GridView list={allCategories} columns={3} />
+      <GridView columns={3}>
+        {allCategories.map((category) => (
+          <div className="col" key={category.name}>
+            <CategoryCard category={category} />
+          </div>
+        ))}
+      </GridView>
     </div>
   );
 }

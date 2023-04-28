@@ -1,4 +1,5 @@
 import { GridView } from "../../components/gridview";
+import { ArticleCard } from "./ArticleCard";
 
 export function ShowArticles() {
   const allArticles = [];
@@ -8,7 +9,13 @@ export function ShowArticles() {
       <h1 className="text-center mt-4">Listing Articles</h1>
       <br />
 
-      <GridView list={allArticles} columns={3} />
+      <GridView columns={3}>
+        {allArticles.map((article) => (
+          <div className="col" key={article.title}>
+            <ArticleCard article={article} />
+          </div>
+        ))}
+      </GridView>
     </div>
   );
 }
