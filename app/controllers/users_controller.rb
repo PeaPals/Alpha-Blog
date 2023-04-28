@@ -11,29 +11,30 @@ class UsersController < ApplicationController
     end
 
     if params[:show] == 'articles'
-      @resource = @user.articles.paginate(page: params[:page], per_page: 6)
-      @articles = @user.articles.paginate(page: params[:page], per_page: 6)
+      @resource = @user.articles.all
       @resource_title = 'Articles'
       @resource_view = 'shared/articles-view'
 
     elsif params[:show] == 'followers'
-      @resource = @user.followers.paginate(page: params[:page], per_page: 6)
-      @users = @user.followers.paginate(page: params[:page], per_page: 6)
+      @resource = @user.followers.all
       @resource_title = 'Followers'
       @resource_view = 'shared/users-view'
 
     elsif params[:show] == 'following'
-      @resource = @user.followings.paginate(page: params[:page], per_page: 6)
-      @users = @user.followings.paginate(page: params[:page], per_page: 6)
+      @resource = @user.followings.all
       @resource_title = 'Following'
       @resource_view = 'shared/users-view'
     end
+
+    render json: {user: @user, resource: @resource}
 
   end
 
 
   def index
-    @users = User.paginate(page: params[:page], per_page: 6)
+    @users = User.all
+
+    render json: {users: @users}
   end
 
 
@@ -41,20 +42,19 @@ class UsersController < ApplicationController
     # current_user = nil
 
     @user.destroy
-    flash[:notice] = "The account has been successfully cancelled."
-    redirect_to root_path
+    render json: {status: true}
   end
 
 
   def follow
     @user.followers << current_user
-    redirect_to user_index_path
+    render json: {status: true}
   end
 
 
   def unfollow
     Follow.find_by(following_user_id: current_user.id, followed_user_id: @user.id).destroy
-    redirect_to user_index_path
+    render json: {status: true}
   end
 
 

@@ -7,6 +7,7 @@ class ArticlesController < ApplicationController
 
 
   def show
+    render json: {article: @article}
   end
 
   def index
@@ -17,10 +18,11 @@ class ArticlesController < ApplicationController
         @articles += following_user.articles
       end
 
-      @articles = @articles.paginate(page: params[:page], per_page: 6)
     else
-      @articles = Article.paginate(page: params[:page], per_page: 6)
+      @articles = Article.all
     end
+
+    render json: {allArticles: @articles}
   end
 
   def new
@@ -42,10 +44,9 @@ class ArticlesController < ApplicationController
 
   def update
     if @article.update(article_params)
-      flash[:notice] = "Article was updated successfully."
-      redirect_to @article
+      render json: {status: true, article: @article}
     else
-      render 'edit'
+      render json: {status: false, errors: []}
     end
   end
 
@@ -56,8 +57,7 @@ class ArticlesController < ApplicationController
 
   def destroy
     @article.destroy
-    flash[:alert] = "Article deleted successfully."
-    redirect_to '/articles'
+    render json: {status: true}
   end
 
 

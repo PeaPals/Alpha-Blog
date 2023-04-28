@@ -4,11 +4,13 @@ class CategoriesController < ApplicationController
 
 
   def index
-    @categories = Category.paginate(page: params[:page], per_page: 9)
+    @categories = Category.all
+    render json: {allCategories: @categories}
   end
 
   def show
-    @articles = @category.articles.paginate(page: params[:page], per_page: 6)
+    @articles = @category.articles.all
+    render json: {category: @category, categoryArticles: @articles}
   end
 
 

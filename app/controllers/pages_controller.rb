@@ -8,7 +8,7 @@ class PagesController < ApplicationController
       @searched_results = search_results(searchphrase)
     end
 
-    render "home"
+    render json: {searchResults: @searched_results}
   end
 
 
