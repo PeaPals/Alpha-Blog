@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
   devise_for :users,
+            :controllers => {
+              sessions: 'users/sessions',
+              registrations: 'users/registrations'
+            },
           #  :controllers => { :registrations => 'registrations' },
            :path => 'accounts',
            :path_names => { :sign_in => 'login',
@@ -11,6 +15,8 @@ Rails.application.routes.draw do
                           }
                             # :password => 'secret',
                             # :confirmation => 'verification' }
+
+  get '/member-data', to: 'members#show'
 
   root "pages#home"
 
