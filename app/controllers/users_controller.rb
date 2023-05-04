@@ -33,8 +33,16 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+    allUsers = []
 
-    render json: {users: @users}
+
+    @users.each do |user|
+      new_user = {user: user, following: false, follower: false}
+      allUsers << new_user
+    end
+
+
+    render json: {allUsers: allUsers}
   end
 
 
