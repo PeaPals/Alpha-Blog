@@ -1,13 +1,24 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+
 export function ArticleCard({ article }) {
   return (
     <div className="container">
       <div className="card text-center shadow p-3 mb-5 bg-white rounded">
         {/* Header */}
-        <div className="card-header">{article.title}</div>
+        <div className="card-header">
+          Created By:{" "}
+          <Link
+            to={`/users/${article.user_id}`}
+            style={{ textDecoration: "none" }}
+          >
+            {article.user_username}
+          </Link>
+        </div>
 
         {/* Body */}
         <div className="card-body">
-          <h5 className="card-title">{article.title}</h5>
           <p className="card-text">{article.description}</p>
         </div>
 

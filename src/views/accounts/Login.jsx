@@ -1,15 +1,41 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { Context, postRequest, getRequest } from "../../shared/helper";
+import axios from "axios";
 
 export function Login({}) {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState("");
 
+  const { context, setContext } = useContext(Context);
+
   function onSubmit(e) {
     e.preventDefault();
 
-    // TODO
+    postRequest("/accounts/login", {
+      user: {
+        email: email,
+        password: password,
+        remember_me: rememberMe,
+      },
+    }).then((response) => {
+      if (response.headers.hasAuthorization()) {
+        const token = response.headers.getAuthorization();
+        sessionStorage.setItem("token", token);
+
+        axios.defaults.headers.common["Authorization"] = token;
+
+        getRequest("/member-data").then((res) => {
+          setContext({ ...context, authToken: token, currentUser: res.data });
+        });
+      }
+
+      navigate("/");
+    });
   }
 
   return (
@@ -47,19 +73,17 @@ export function Login({}) {
         </div>
 
         {/* TODO : check if remember me div should be kept or removed */}
-        <div class="form-group row">
+        <div className="form-group row">
           <div className="col-6"></div>
           <div className="form-check form-switch col">
             <input
-              class="form-check-input"
+              className="form-check-input"
               type="checkbox"
               value={rememberMe}
               onChange={(e) => setRememberMe(e.target.value)}
               id="flexSwitchCheckDefault"
             ></input>
-            <label class="form-check-label" for="flexSwitchCheckDefault">
-              Remember Me
-            </label>
+            <label className="form-check-label">Remember Me</label>
           </div>
           <div className="col-1"></div>
         </div>

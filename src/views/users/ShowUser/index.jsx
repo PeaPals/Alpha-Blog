@@ -12,10 +12,10 @@ export function ShowUser({}) {
   const assetPath = "../../assets/images/user-logo.png";
 
   return (
-    <div class="container">
-      <div class="main-body" style={{ marginTop: "50px" }}>
-        <div class="row gutters-sm">
-          <div class="col-md-4 mb-3">
+    <div className="container">
+      <div className="main-body" style={{ marginTop: "50px" }}>
+        <div className="row gutters-sm">
+          <div className="col-md-4 mb-3">
             <UserCard
               id={params.id}
               gender={gender}
@@ -33,8 +33,8 @@ export function ShowUser({}) {
             />
           </div>
 
-          <div class="col-md-8 shadow-lg p-3 mb-5 bg-white rounded">
-            <h2 class="text-center mt-4">{showQueryParam || "Articles"}</h2>
+          <div className="col-md-8 shadow-lg p-3 mb-5 bg-white rounded">
+            <h2 className="text-center mt-4">{showQueryParam || "Articles"}</h2>
             {/* TODO : show articles / followers / followings here */}
           </div>
         </div>

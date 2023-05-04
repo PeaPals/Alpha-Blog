@@ -1,14 +1,41 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Context, postRequest, getRequest } from "../../shared/helper";
 
 export function Signup({}) {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
+  const { context, setContext } = useContext(Context);
+
   function onSubmit(e) {
     e.preventDefault();
+
+    postRequest("/accounts", {
+      user: {
+        username: username,
+        email: email,
+        password: password,
+        password_confirmation: passwordConfirmation,
+      },
+    }).then((response) => {
+      if (response.headers.hasAuthorization()) {
+        const token = response.headers.getAuthorization();
+        sessionStorage.setItem("token", token);
+
+        axios.defaults.headers.common["Authorization"] = token;
+
+        getRequest("/member-data").then((res) => {
+          setContext({ ...context, authToken: token, currentUser: res.data });
+        });
+
+        navigate("/");
+      }
+    });
 
     // TODO
   }

@@ -1,7 +1,7 @@
 export function Error({ errorName, errorMessages }) {
   return (
-    <div class="alert alert-danger" role="alert">
-      <h4 class="alert-heading">
+    <div className="alert alert-danger" role="alert">
+      <h4 className="alert-heading">
         Following errors prevented {errorName} from saving
       </h4>
       <ul>

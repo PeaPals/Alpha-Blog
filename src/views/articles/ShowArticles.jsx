@@ -1,8 +1,18 @@
+import { useState, useEffect } from "react";
 import { GridView } from "../../components/gridview";
 import { ArticleCard } from "./ArticleCard";
+import axios from "axios";
+import React from "react";
+import { getRequest } from "../../shared/helper";
 
 export function ShowArticles() {
-  const allArticles = [];
+  const [allArticles, setAllArticles] = useState([]);
+
+  useEffect(() => {
+    getRequest("/articles").then((response) => {
+      setAllArticles(response.data.allArticles);
+    });
+  }, []);
 
   return (
     <div id="page-content">

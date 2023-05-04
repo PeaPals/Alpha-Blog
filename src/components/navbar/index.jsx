@@ -1,8 +1,18 @@
 import { SearchBar } from "../search/SearchBar";
 import "./shared.css";
 import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Context } from "../../shared/helper";
 
-export function NavBar({ signedIn = false }) {
+export function NavBar() {
+  const { context, setContext } = useContext(Context);
+  const currentUser = context.currentUser;
+
+  function logout() {
+    sessionStorage.removeItem("token");
+    setContext({ ...context, authToken: undefined, currentUser: undefined });
+  }
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -24,7 +34,7 @@ export function NavBar({ signedIn = false }) {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {signedIn && (
+            {currentUser && (
               <>
                 <li className="nav-item dropdown">
                   <a
@@ -95,30 +105,27 @@ export function NavBar({ signedIn = false }) {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    username
+                    {currentUser.username}
                   </a>
                   <ul className="dropdown-menu">
                     {/* TODO : replace user_id with current_user.id */}
                     <li>
-                      <Link to="/users/user_id" className="dropdown-item">
+                      <Link
+                        to={`/users/${currentUser.id}`}
+                        className="dropdown-item"
+                      >
                         My Profile
                       </Link>
                     </li>
                     <li>
-                      <Link
-                        to="edit_user_registration_path"
-                        className="dropdown-item"
-                      >
+                      <Link to="/accounts/edit" className="dropdown-item">
                         Edit Profile
                       </Link>
                     </li>
                     <li>
-                      <Link
-                        to="destroy_user_session_path"
-                        className="dropdown-item"
-                      >
+                      <button onClick={logout} className="dropdown-item">
                         Logout
-                      </Link>
+                      </button>
                     </li>
                     <li>
                       <Link
@@ -138,7 +145,7 @@ export function NavBar({ signedIn = false }) {
             )}
 
             {/* TODO : replace true with is_signed_in() */}
-            {!signedIn && (
+            {!currentUser && (
               <>
                 <li className="nav-item">
                   <Link

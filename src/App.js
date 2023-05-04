@@ -14,41 +14,63 @@ import {
 } from "./views/articles";
 import { ShowCategory, ShowCategories } from "./views/categories";
 import { ShowUser, ShowUsers } from "./views/users";
+import { useEffect, useState } from "react";
+
+import { getRequest, Context } from "./shared/helper";
+import axios from "axios";
 
 function Tester() {
   return <></>;
 }
 
 function App() {
+  const [context, setContext] = useState({
+    authToken: sessionStorage.getItem("token"),
+  });
+
+  useEffect(() => {
+    axios.defaults.headers.common["Authorization"] = context.authToken;
+  }, [context]);
+
+  useEffect(() => {
+    if (context.authToken) {
+      getRequest("/member-data").then((res) => {
+        setContext({ ...context, currentUser: res.data });
+      });
+    }
+  }, []);
+
   return (
-    <Router>
-      <NavBar signedIn={true} />
+    <Context.Provider value={{ context, setContext }}>
+      <Router>
+        <NavBar />
 
-      <Routes>
-        {/* Basic Route */}
-        <Route path="/testing" exact element={<Tester />} />
-        <Route path="/" exact element={<Home />} />
+        <Routes>
+          {/* Basic Route */}
+          <Route path="/testing" exact element={<Tester />} />
+          <Route path="/" exact element={<Home />} />
 
-        {/* Accounts Routes */}
-        <Route path="/accounts/login" exact element={<Login />} />
-        <Route path="/accounts/signup" exact element={<Signup />} />
-        <Route path="/accounts/edit" exact element={<EditAccount />} />
+          {/* Accounts Routes */}
+          <Route path="/accounts/login" exact element={<Login />} />
+          <Route path="/accounts/signup" exact element={<Signup />} />
+          <Route path="/accounts/edit" exact element={<EditAccount />} />
 
-        {/* Articles Routes */}
-        <Route path="/articles" exact element={<ShowArticles />} />
-        <Route path="/articles/:id" exact element={<ShowArticle />} />
-        <Route path="/articles/new" exact element={<NewArticle />} />
-        <Route path="/articles/:id/edit" exact element={<EditArticle />} />
+          {/* Articles Routes */}
+          <Route path="/articles" exact element={<ShowArticles />} />
+          <Route path="/articles/:id" exact element={<ShowArticle />} />
+          <Route path="/articles/new" exact element={<NewArticle />} />
+          <Route path="/articles/:id/edit" exact element={<EditArticle />} />
 
-        {/* Categories Routes */}
-        <Route path="/categories" exact element={<ShowCategories />} />
-        <Route path="/categories/:id" exact element={<ShowCategory />} />
+          {/* Categories Routes */}
+          <Route path="/categories" exact element={<ShowCategories />} />
+          <Route path="/categories/:id" exact element={<ShowCategory />} />
 
-        {/* Users Routes */}
-        <Route path="/users" exact element={<ShowUsers />} />
-        <Route path="/users/:id" exact element={<ShowUser />} />
-      </Routes>
-    </Router>
+          {/* Users Routes */}
+          <Route path="/users" exact element={<ShowUsers />} />
+          <Route path="/users/:id" exact element={<ShowUser />} />
+        </Routes>
+      </Router>
+    </Context.Provider>
   );
 }
 

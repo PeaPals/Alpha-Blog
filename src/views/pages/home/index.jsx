@@ -1,8 +1,11 @@
 import "./shared.css";
 import { HomeFooter } from "./footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
-export function Home({ signedIn = true }) {
+export function Home() {
+  const signedIn = true;
+
   return (
     <>
       <div className="container" id="home-container">
