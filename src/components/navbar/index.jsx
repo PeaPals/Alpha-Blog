@@ -1,16 +1,32 @@
-import { SearchBar } from "../search/SearchBar";
 import "./shared.css";
 import { Link } from "react-router-dom";
 import React, { useContext } from "react";
-import { Context } from "../../shared/helper";
+import { Server, Context } from "../../shared/helper";
+import { SearchBar } from "../search";
 
 export function NavBar() {
   const { context, setContext } = useContext(Context);
   const currentUser = context.currentUser;
 
   function logout() {
-    sessionStorage.removeItem("token");
-    setContext({ ...context, authToken: undefined, currentUser: undefined });
+    Server.delete("/accounts/logout").then((response) => {
+      sessionStorage.removeItem("token");
+      setContext({ ...context, authToken: undefined, currentUser: undefined });
+    });
+  }
+
+  function deleteProfile() {
+    if (window.confirm("Are you sure?")) {
+      Server.delete("/accounts").then((response) => {
+        console.log("DELETE PROFILE RESPONSE :", response);
+        sessionStorage.removeItem("token");
+        setContext({
+          ...context,
+          authToken: undefined,
+          currentUser: undefined,
+        });
+      });
+    }
   }
 
   return (
@@ -128,12 +144,12 @@ export function NavBar() {
                       </button>
                     </li>
                     <li>
-                      <Link
-                        to="registration_path(current_user)"
+                      <button
+                        onClick={deleteProfile}
                         className="dropdown-item text-danger"
                       >
                         Delete Profile
-                      </Link>
+                      </button>
                     </li>
                     {/* TODO : <li><%= link_to "Delete Profile", registration_path(current_user), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "dropdown-item text-danger" %> */}
                   </ul>
@@ -169,7 +185,7 @@ export function NavBar() {
             )}
           </ul>
 
-          <SearchBar />
+          {currentUser && <SearchBar />}
         </div>
       </div>
     </nav>

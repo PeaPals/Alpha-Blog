@@ -1,13 +1,23 @@
 import "./shared.css";
 import { HomeFooter } from "./footer";
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { SearchResultsView } from "../../../components/search";
+import { useContext } from "react";
+import { Context } from "../../../shared/helper";
+import { useSearchParams } from "react-router-dom";
 
 export function Home() {
-  const signedIn = true;
+  const { context, setContext } = useContext(Context);
+  const currentUser = context.currentUser;
+
+  const [searchParams] = useSearchParams();
+  const querySearchphrase = searchParams.get("searchphrase");
 
   return (
     <>
+      {querySearchphrase && currentUser && (
+        <SearchResultsView querySearchphrase={querySearchphrase} />
+      )}
       <div className="container" id="home-container">
         <div className="text-center text-white" id="home-headings">
           <h1
@@ -23,7 +33,7 @@ export function Home() {
             The world lives here
           </p>
 
-          {signedIn && (
+          {currentUser && (
             <Link
               to="/articles?show=my-feed"
               className="btn btn-outline-info btn-lg fw-bold"
@@ -31,9 +41,9 @@ export function Home() {
               My Feed
             </Link>
           )}
-          {!signedIn && (
+          {!currentUser && (
             <Link
-              to="new_user_registration_path"
+              to="/accounts/signup"
               className="btn btn-outline-info btn-lg fw-bold"
             >
               Get Started
@@ -41,7 +51,6 @@ export function Home() {
           )}
         </div>
       </div>
-
       <HomeFooter footerText="Made by @neonklr" />
     </>
   );

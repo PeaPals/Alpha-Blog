@@ -7,13 +7,6 @@ import axios from "axios";
 export function ShowUsers() {
   const [allUsers, setAllUsers] = useState([]);
 
-  // React.useEffect(() => {
-  //   axios.get("http://localhost:3000/users").then((response) => {
-  //     setAllUsers(response.data.allUsers);
-  //     console.log(response);
-  //   });
-  // }, []);
-
   return (
     <div id="page-content">
       <h1 className="text-center mt-4">Alpha Bloggers</h1>

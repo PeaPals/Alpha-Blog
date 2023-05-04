@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Context, postRequest, getRequest } from "../../shared/helper";
+import { Context, Server } from "../../shared/helper";
 
 export function Signup({}) {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export function Signup({}) {
   function onSubmit(e) {
     e.preventDefault();
 
-    postRequest("/accounts", {
+    Server.post("/accounts", {
       user: {
         username: username,
         email: email,
@@ -27,9 +27,9 @@ export function Signup({}) {
         const token = response.headers.getAuthorization();
         sessionStorage.setItem("token", token);
 
-        axios.defaults.headers.common["Authorization"] = token;
+        Server.defaults.headers.common["Authorization"] = token;
 
-        getRequest("/member-data").then((res) => {
+        Server.get("/member-data").then((res) => {
           setContext({ ...context, authToken: token, currentUser: res.data });
         });
 

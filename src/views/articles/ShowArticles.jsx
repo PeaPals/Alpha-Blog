@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { GridView } from "../../components/gridview";
 import { ArticleCard } from "./ArticleCard";
-import axios from "axios";
 import React from "react";
-import { getRequest } from "../../shared/helper";
+import { Server } from "../../shared/helper";
 
 export function ShowArticles() {
   const [allArticles, setAllArticles] = useState([]);
 
   useEffect(() => {
-    getRequest("/articles").then((response) => {
+    Server.get("/articles").then((response) => {
+      console.log(response);
       setAllArticles(response.data.allArticles);
     });
   }, []);

@@ -16,8 +16,7 @@ import { ShowCategory, ShowCategories } from "./views/categories";
 import { ShowUser, ShowUsers } from "./views/users";
 import { useEffect, useState } from "react";
 
-import { getRequest, Context } from "./shared/helper";
-import axios from "axios";
+import { Context, Server } from "./shared/helper";
 
 function Tester() {
   return <></>;
@@ -29,12 +28,12 @@ function App() {
   });
 
   useEffect(() => {
-    axios.defaults.headers.common["Authorization"] = context.authToken;
+    Server.defaults.headers.common["Authorization"] = context.authToken;
   }, [context]);
 
   useEffect(() => {
     if (context.authToken) {
-      getRequest("/member-data").then((res) => {
+      Server.get("/member-data").then((res) => {
         setContext({ ...context, currentUser: res.data });
       });
     }

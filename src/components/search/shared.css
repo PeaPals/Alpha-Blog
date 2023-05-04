@@ -19,9 +19,10 @@
   background: black;
   opacity: 100%;
   width: 21rem;
-  position: absolute;
+  position: fixed;
+  z-index: 10;
   right: 11px;
-  top: 0px;
+  top: 66px;
   overflow-y: auto;
 
   border-bottom-left-radius: 10px;
