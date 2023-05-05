@@ -1,7 +1,12 @@
 import "./App.css";
 
 import "bootstrap/dist/js/bootstrap";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from "react-router-dom";
 
 import { NavBar } from "./components";
 import { Home } from "./views/pages";
@@ -14,12 +19,44 @@ import {
 } from "./views/articles";
 import { ShowCategory, ShowCategories } from "./views/categories";
 import { ShowUser, ShowUsers } from "./views/users";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Context, Server } from "./shared/helper";
 
 function Tester() {
   return <></>;
+}
+
+function RequireSignIn({
+  children,
+  message = "You need to sign-in before continuing.",
+}) {
+  const { context, setContext } = useContext(Context);
+
+  if (context.currentUser) {
+    return <>{children}</>;
+  } else {
+    // TODO : show message "you need to signin first"
+    console.log(message);
+
+    return <Navigate to="/" />;
+  }
+}
+
+function RequireLogout({
+  children,
+  message = "You need to logout before continuing.",
+}) {
+  const { context, setContext } = useContext(Context);
+
+  if (!context.currentUser) {
+    return <>{children}</>;
+  } else {
+    // TODO : show message "you need to logout first"
+    console.log(message);
+
+    return <Navigate to="/" />;
+  }
 }
 
 function App() {
@@ -50,23 +87,111 @@ function App() {
           <Route path="/" exact element={<Home />} />
 
           {/* Accounts Routes */}
-          <Route path="/accounts/login" exact element={<Login />} />
-          <Route path="/accounts/signup" exact element={<Signup />} />
-          <Route path="/accounts/edit" exact element={<EditAccount />} />
+          <Route
+            path="/accounts/login"
+            exact
+            element={
+              <RequireLogout>
+                <Login />
+              </RequireLogout>
+            }
+          />
+          <Route
+            path="/accounts/signup"
+            exact
+            element={
+              <RequireSignIn>
+                <Signup />
+              </RequireSignIn>
+            }
+          />
+          <Route
+            path="/accounts/edit"
+            exact
+            element={
+              <RequireSignIn>
+                <EditAccount />
+              </RequireSignIn>
+            }
+          />
 
           {/* Articles Routes */}
-          <Route path="/articles" exact element={<ShowArticles />} />
-          <Route path="/articles/:id" exact element={<ShowArticle />} />
-          <Route path="/articles/new" exact element={<NewArticle />} />
-          <Route path="/articles/:id/edit" exact element={<EditArticle />} />
+          <Route
+            path="/articles"
+            exact
+            element={
+              <RequireSignIn>
+                <ShowArticles />
+              </RequireSignIn>
+            }
+          />
+          <Route
+            path="/articles/:id"
+            exact
+            element={
+              <RequireSignIn>
+                <ShowArticle />
+              </RequireSignIn>
+            }
+          />
+          <Route
+            path="/articles/new"
+            exact
+            element={
+              <RequireSignIn>
+                <NewArticle />
+              </RequireSignIn>
+            }
+          />
+          <Route
+            path="/articles/:id/edit"
+            exact
+            element={
+              <RequireSignIn>
+                <EditArticle />
+              </RequireSignIn>
+            }
+          />
 
           {/* Categories Routes */}
-          <Route path="/categories" exact element={<ShowCategories />} />
-          <Route path="/categories/:id" exact element={<ShowCategory />} />
+          <Route
+            path="/categories"
+            exact
+            element={
+              <RequireSignIn>
+                <ShowCategories />
+              </RequireSignIn>
+            }
+          />
+          <Route
+            path="/categories/:id"
+            exact
+            element={
+              <RequireSignIn>
+                <ShowCategory />
+              </RequireSignIn>
+            }
+          />
 
           {/* Users Routes */}
-          <Route path="/users" exact element={<ShowUsers />} />
-          <Route path="/users/:id" exact element={<ShowUser />} />
+          <Route
+            path="/users"
+            exact
+            element={
+              <RequireSignIn>
+                <ShowUsers />
+              </RequireSignIn>
+            }
+          />
+          <Route
+            path="/users/:id"
+            exact
+            element={
+              <RequireSignIn>
+                <ShowUser />
+              </RequireSignIn>
+            }
+          />
         </Routes>
       </Router>
     </Context.Provider>

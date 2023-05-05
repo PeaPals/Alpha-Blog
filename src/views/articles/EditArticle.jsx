@@ -3,12 +3,11 @@ import { ArticleForm } from "./ArticleForm";
 import { useParams } from "react-router-dom";
 
 export function EditArticle({}) {
-  const params = useParams();
+  const id = useParams().id;
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
   // TODO
-  console.log(params.id);
   function onSubmit(e) {
     e.preventDefault();
 

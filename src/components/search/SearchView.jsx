@@ -40,8 +40,6 @@ export function SearchResultsView({ querySearchphrase }) {
     });
   }, [querySearchphrase]);
 
-  console.log(searchresults);
-
   return (
     searchresults && (
       <>

@@ -9,7 +9,6 @@ export function ShowArticles() {
 
   useEffect(() => {
     Server.get("/articles").then((response) => {
-      console.log(response);
       setAllArticles(response.data.allArticles);
     });
   }, []);
@@ -20,9 +19,16 @@ export function ShowArticles() {
       <br />
 
       <GridView columns={3}>
-        {allArticles.map((article) => (
-          <div className="col" key={article.title}>
-            <ArticleCard article={article} />
+        {allArticles.map((object) => (
+          <div className="col" key={object.article.id}>
+            <ArticleCard
+              article={object.article}
+              user={object.user}
+              categories={object.categories}
+              createdAt={object.createdAt}
+              updatedAt={object.updatedAt}
+              key={object.article.id}
+            />
           </div>
         ))}
       </GridView>
