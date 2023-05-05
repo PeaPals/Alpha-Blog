@@ -1,18 +1,37 @@
-export function CategoryCard({ category }) {
+import { Link } from "react-router-dom";
+
+export function CategoryCard({ category, mentionedIn, createdAt, updatedAt }) {
   return (
     <div className="container">
       <div className="card text-center shadow p-3 mb-5 bg-white rounded">
-        {/* Header */}
-        <div className="card-header">{category.title}</div>
-
         {/* Body */}
         <div className="card-body">
-          <h5 className="card-title">{category.title}</h5>
-          <p className="card-text">{category.description}</p>
+          <h5 className="card-title text-center">
+            <Link
+              to={`/categories/${category.id}`}
+              style={{ textDecoration: "none" }}
+            >
+              {category.name}
+            </Link>
+          </h5>
+          <button
+            class="btn btn-sm btn-dark disabled"
+            style={{ margin: "10px", height: "30px", width: "165px" }}
+          >
+            Mentioned in {mentionedIn}
+          </button>
+          <br />
         </div>
 
         {/* Title */}
-        <div className="card-footer text-muted">{category.createdBy}</div>
+        <div
+          className="card-footer text-muted"
+          style={{ backgroundColor: "white" }}
+        >
+          <small>Created : {createdAt} ago</small>
+          <br />
+          <small>Updated : {updatedAt} ago</small>
+        </div>
       </div>
     </div>
   );

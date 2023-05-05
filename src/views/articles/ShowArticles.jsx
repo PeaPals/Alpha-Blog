@@ -3,15 +3,23 @@ import { GridView } from "../../components/gridview";
 import { ArticleCard } from "./ArticleCard";
 import React from "react";
 import { Server } from "../../shared/helper";
+import { useSearchParams } from "react-router-dom";
 
 export function ShowArticles() {
   const [allArticles, setAllArticles] = useState([]);
+  const [searchParams] = useSearchParams();
+  let param = searchParams.get("show");
 
   useEffect(() => {
-    Server.get("/articles").then((response) => {
+    if (!param) {
+      param = "";
+    } else {
+      param = `?show=${param}`;
+    }
+    Server.get("/articles" + param).then((response) => {
       setAllArticles(response.data.allArticles);
     });
-  }, []);
+  }, [param]);
 
   return (
     <div id="page-content">

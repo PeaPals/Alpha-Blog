@@ -19,10 +19,7 @@ export function ArticleCard({
       <div className="card text-center shadow p-3 mb-5 bg-white rounded">
         {/* Header */}
         <div className="card-header">
-          Created By :{" "}
-          <Link to={`/users/${user.id}`} style={{ textDecoration: "none" }}>
-            {user.username}
-          </Link>
+          <h5 class="card-title">{article.title}</h5>
         </div>
 
         {/* Body */}
@@ -81,8 +78,17 @@ export function ArticleCard({
         </div>
 
         {/* Title */}
-        <div className="card-footer text-muted">
-          <small>Created : {createdAt} ago</small>
+        <div
+          className="card-footer text-muted"
+          style={{ backgroundColor: "white" }}
+        >
+          <small>
+            Created By :{" "}
+            <Link to={`/users/${user.id}`} style={{ textDecoration: "none" }}>
+              {user.username}
+            </Link>{" "}
+            {createdAt} ago
+          </small>
           <br />
           <small>Updated : {updatedAt} ago</small>
         </div>

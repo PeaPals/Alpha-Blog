@@ -9,7 +9,6 @@ export function ShowArticle() {
 
   useEffect(() => {
     Server.get(`/articles/${id}`).then((response) => {
-      console.log("ARTICLE : ", response);
       setObject(response.data);
     });
   }, [id]);

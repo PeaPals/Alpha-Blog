@@ -1,8 +1,17 @@
+import { useState } from "react";
 import { GridView } from "../../components/gridview";
 import { CategoryCard } from "./CategoryCard";
+import { useEffect } from "react";
+import { Server } from "../../shared/helper";
 
 export function ShowCategories() {
-  const allCategories = [];
+  const [object, setObject] = useState([]);
+
+  useEffect(() => {
+    Server.get("/categories").then((response) => {
+      setObject(response.data.allCategories);
+    });
+  }, []);
 
   return (
     <div id="page-content">
@@ -10,9 +19,14 @@ export function ShowCategories() {
       <br />
 
       <GridView columns={3}>
-        {allCategories.map((category) => (
-          <div className="col" key={category.name}>
-            <CategoryCard category={category} />
+        {object.map((obj) => (
+          <div className="col" key={obj.category.id}>
+            <CategoryCard
+              category={obj.category}
+              mentionedIn={obj.mentionedIn}
+              createdAt={obj.createdAt}
+              updatedAt={obj.updatedAt}
+            />
           </div>
         ))}
       </GridView>
