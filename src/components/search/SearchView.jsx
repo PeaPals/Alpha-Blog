@@ -3,6 +3,10 @@ import "./shared.css";
 import { useEffect, useState } from "react";
 import { Server } from "../../shared/helper";
 
+import articleLogo from "../../assets/images/article-logo.jpg";
+import categoryLogo from "../../assets/images/category-logo.jpeg";
+import userLogoBW from "../../assets/images/user-logo-bw.png";
+
 export function SearchResultsView({ querySearchphrase }) {
   const [searchresults, setSearchresults] = useState([]);
 
@@ -15,7 +19,7 @@ export function SearchResultsView({ querySearchphrase }) {
         link: `/users/${id}`,
         label: "user",
         badge: "primary",
-        assetLink: undefined,
+        assetLink: userLogoBW,
       }));
 
       results["articles"] = results["articles"].map(({ id, title }) => ({
@@ -23,7 +27,7 @@ export function SearchResultsView({ querySearchphrase }) {
         link: `/articles/${id}`,
         label: "article",
         badge: "warning",
-        assetLink: undefined,
+        assetLink: articleLogo,
       }));
 
       results["categories"] = results["categories"].map(({ id, name }) => ({
@@ -31,7 +35,7 @@ export function SearchResultsView({ querySearchphrase }) {
         link: `/categories/${id}`,
         label: "category",
         badge: "danger",
-        assetLink: undefined,
+        assetLink: categoryLogo,
       }));
 
       setSearchresults(

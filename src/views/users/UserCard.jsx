@@ -2,6 +2,7 @@ import { useContext } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../../shared/helper";
+import userLogo from "../../assets/images/user-logo.png";
 
 export function UserCard({
   user,
@@ -43,6 +44,9 @@ export function UserCard({
             className="rounded-circle"
             width="150"
             style={{ marginTop: "15px", marginBottom: "15px" }}
+            onError={(e) => {
+              e.target.src = userLogo;
+            }}
           />
           <h5 className="card-title">{user.username}</h5>
           <div className="text-secondary" style={{ fontStyle: "italic" }}>

@@ -16,7 +16,7 @@ export function SearchResultsItem({
             className="rounded-circle"
             alt="search-image"
             width={60}
-            src={`'src/assets/images/${itemAssetLink}'`}
+            src={itemAssetLink}
           ></img>
           <Link
             to={itemLink}
