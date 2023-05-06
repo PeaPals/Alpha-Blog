@@ -1,24 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GridView } from "../../components/gridview";
 import { UserCard } from "./UserCard";
 import React from "react";
-import axios from "axios";
+import { Server } from "../../shared/helper";
 
 export function ShowUsers() {
-  const [allUsers, setAllUsers] = useState([]);
+  const [object, setObject] = useState([]);
 
-  return (
-    <div id="page-content">
-      <h1 className="text-center mt-4">Alpha Bloggers</h1>
-      <br />
+  useEffect(() => {
+    Server.get("/users").then((response) => {
+      setObject(response.data.allUsers);
+    });
+  }, []);
 
-      <GridView columns={3}>
-        {allUsers.map((user) => (
-          <div className="col" key={user.name}>
-            <UserCard user={user} />
-          </div>
-        ))}
-      </GridView>
-    </div>
-  );
+  if (object) {
+    return (
+      <div id="page-content">
+        <h1 className="text-center mt-4">Alpha Bloggers</h1>
+        <br />
+
+        <GridView columns={3}>
+          {object.map((obj) => (
+            <div className="col" key={obj.user.id}>
+              <UserCard
+                user={obj.user}
+                totalArticles={obj.totalArticles}
+                totalFollowers={obj.totalFollowers}
+                totalFollowing={obj.totalFollowing}
+                createdAt={obj.createdAt}
+                isFollowing={obj.isFollowing}
+                followBack={obj.followBack}
+                key={obj.user.id}
+              />
+            </div>
+          ))}
+        </GridView>
+      </div>
+    );
+  } else {
+    return <></>;
+  }
 }

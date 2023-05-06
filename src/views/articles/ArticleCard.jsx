@@ -18,7 +18,7 @@ export function ArticleCard({
     <div className="container">
       <div className="card text-center shadow p-3 mb-5 bg-white rounded">
         {/* Header */}
-        <div className="card-header">
+        <div className="card-header" style={{ backgroundColor: "white" }}>
           <h5 class="card-title">{article.title}</h5>
         </div>
 

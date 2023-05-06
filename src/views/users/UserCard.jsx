@@ -1,28 +1,36 @@
-import { useState } from "react";
+import { useContext } from "react";
 import React from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import { Context } from "../../shared/helper";
 
-export function UserCard({ user }) {
-  const [currentUser, setCurrentUser] = useState(false);
+export function UserCard({
+  user,
+  totalArticles,
+  totalFollowers,
+  totalFollowing,
+  createdAt,
+  isFollowing,
+  followBack,
+}) {
+  const { context, setContext } = useContext(Context);
+  const currentUser = context.currentUser;
   const gender = user.id % 2 ? "male" : "female";
 
   return (
     <div className="container">
       <div className="card text-center shadow p-3 mb-5 bg-white rounded">
         {/* Header */}
-        <div className="card-header">
+        <div className="card-header" style={{ backgroundColor: "white" }}>
           {currentUser.id === user.id && (
-            <>
-              <button className="btn btn-sm btn-info fw-bold">You</button>
-            </>
+            <button className="btn btn-sm btn-info fw-bold">You</button>
           )}
 
           {!(currentUser.id === user.id) && (
             <>
-              <button className="btn btn-warning btn-sm fw-bold">
-                Follow(ing) ?
-              </button>
+              <Link className="btn btn-warning btn-sm fw-bold">
+                {isFollowing ? "✓ Following" : "✛ Follow"}{" "}
+                {followBack ? "back" : ""}
+              </Link>
             </>
           )}
         </div>
@@ -32,17 +40,17 @@ export function UserCard({ user }) {
           <img
             src={`https://xsgames.co/randomusers/avatar.php?g=${gender}&id=${user.id}`}
             alt="Profile Image"
-            class="rounded-circle"
+            className="rounded-circle"
             width="150"
             style={{ marginTop: "15px", marginBottom: "15px" }}
           />
           <h5 className="card-title">{user.username}</h5>
-          <div class="text-secondary" style={{ fontStyle: "italic" }}>
-            Joined at : {user.created_at}{" "}
+          <div className="text-secondary" style={{ fontStyle: "italic" }}>
+            Joined : {createdAt} ago
           </div>
 
           <div
-            class="row"
+            className="row"
             style={{ alignItems: "flex-end", marginTop: "1.5rem" }}
           >
             <Link
@@ -50,7 +58,7 @@ export function UserCard({ user }) {
               className="btn btn-md btn-light col-4"
               style={{ overflowWrap: "normal" }}
             >
-              4 ?
+              <b>{totalArticles}</b> Articles
             </Link>
 
             <Link
@@ -58,7 +66,7 @@ export function UserCard({ user }) {
               className="btn btn-md btn-light col-4"
               style={{ overflowWrap: "normal" }}
             >
-              5 ?
+              <b>{totalFollowers}</b> Followers
             </Link>
 
             <Link
@@ -66,7 +74,7 @@ export function UserCard({ user }) {
               className="btn btn-md btn-light col-4"
               style={{ overflowWrap: "normal" }}
             >
-              6 ?
+              <b>{totalFollowing}</b> Followings
             </Link>
           </div>
 

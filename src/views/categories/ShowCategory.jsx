@@ -15,8 +15,6 @@ export function ShowCategory() {
     });
   }, [id]);
 
-  console.log("CHECK : ", object);
-
   if (object) {
     return (
       <div id="page-content">

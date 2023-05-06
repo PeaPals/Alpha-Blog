@@ -30,7 +30,7 @@ export function UserControls({
 
             <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
               <h6 className="mb-0"> Joined </h6>
-              <span className="text-secondary">{joinedAgo}</span>
+              <span className="text-secondary">{joinedAgo} ago</span>
             </li>
 
             {ifSameUser() && (
