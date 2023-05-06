@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Server } from "../../shared/helper";
 
 export function EditAccount({}) {
   const [username, setUsername] = useState("");
@@ -7,11 +8,23 @@ export function EditAccount({}) {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
+  const navigate = useNavigate();
 
   function onSubmit(e) {
     e.preventDefault();
 
-    // TODO
+    Server.patch("/accounts", {
+      user: {
+        username: username,
+        email: email,
+        password: password,
+        password_confirmation: passwordConfirmation,
+        current_password: currentPassword,
+      },
+    }).then((response) => {
+      console.log(response);
+      navigate(-1);
+    });
   }
 
   return (
@@ -51,7 +64,7 @@ export function EditAccount({}) {
           <div className="col-9">
             <input
               type="password"
-              id="inputPassword3"
+              // id="inputPassword3"
               autoComplete="new-password"
               className="form-control"
               value={password}
@@ -66,7 +79,7 @@ export function EditAccount({}) {
           <div className="col-9">
             <input
               type="password"
-              id="inputPassword3"
+              // id="inputPassword3"
               className="form-control"
               value={passwordConfirmation}
               onChange={(e) => setPasswordConfirmation(e.target.value)}
@@ -80,7 +93,7 @@ export function EditAccount({}) {
           <div className="col-9">
             <input
               type="password"
-              id="inputPassword3"
+              // id="inputPassword3"
               className="form-control"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}

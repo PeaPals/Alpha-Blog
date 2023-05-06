@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./shared.css";
 import { useContext } from "react";
-import { Context } from "../../shared/helper";
+import { Context, Server } from "../../shared/helper";
 
 export function ArticleCard({
   article,
@@ -13,6 +13,15 @@ export function ArticleCard({
 }) {
   const { context, setContext } = useContext(Context);
   const currentUser = context.currentUser;
+  const navigate = useNavigate();
+
+  function deleteArticle() {
+    if (window.confirm("Are you sure?")) {
+      Server.delete(`/articles/${article.id}`).then((response) => {
+        navigate("/");
+      });
+    }
+  }
 
   return (
     <div className="container">
@@ -60,18 +69,18 @@ export function ArticleCard({
             {currentUser.id === user.id && (
               <>
                 <Link
-                  to={`/articles/${article.id}`}
+                  to={`/articles/${article.id}/edit`}
                   className="btn btn-outline-warning ms-2"
                 >
                   Edit
                 </Link>
 
-                <Link
-                  to={`/articles/${article.id}`}
+                <button
+                  onClick={deleteArticle}
                   className="btn btn-outline-danger ms-2"
                 >
                   Delete
-                </Link>
+                </button>
               </>
             )}
           </div>

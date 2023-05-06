@@ -16,7 +16,8 @@ export function ShowArticle() {
   if (object) {
     return (
       <div id="page-content">
-        <h1 className="text-center mt-4">{object.article.title}</h1>
+        {/* <h1 className="text-center mt-4">{object.article.title}</h1> */}
+        <br />
         <div className="container">
           <ArticleCard
             article={object.article}

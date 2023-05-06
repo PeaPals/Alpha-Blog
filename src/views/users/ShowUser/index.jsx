@@ -16,17 +16,13 @@ export function ShowUser({}) {
   });
 
   const [searchParams] = useSearchParams();
-  let param = searchParams.get("show");
-
+  const param = searchParams.get("show");
   const gender = id % 2 ? "male" : "female";
 
   useEffect(() => {
-    if (!param) {
-      param = "";
-    } else {
-      param = `?show=${param}`;
-    }
-    Server.get(`/users/${id}` + param).then((response) => {
+    const adder = !param ? "" : `?show=${param}`;
+
+    Server.get(`/users/${id}` + adder).then((response) => {
       setObject(response.data);
       console.log(object);
     });

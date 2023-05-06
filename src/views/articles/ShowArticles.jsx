@@ -8,15 +8,12 @@ import { useSearchParams } from "react-router-dom";
 export function ShowArticles() {
   const [allArticles, setAllArticles] = useState([]);
   const [searchParams] = useSearchParams();
-  let param = searchParams.get("show");
+  const param = searchParams.get("show");
 
   useEffect(() => {
-    if (!param) {
-      param = "";
-    } else {
-      param = `?show=${param}`;
-    }
-    Server.get("/articles" + param).then((response) => {
+    const adder = !param ? "" : `?show=${param}`;
+
+    Server.get("/articles" + adder).then((response) => {
       setAllArticles(response.data.allArticles);
     });
   }, [param]);

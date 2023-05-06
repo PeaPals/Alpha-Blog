@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export function ArticleForm({
@@ -6,8 +7,22 @@ export function ArticleForm({
   setTitle,
   description,
   setDescription,
+  categoryIds,
+  setCategoryIds,
   onSubmit,
 }) {
+  function handleCategories(e) {
+    let options = e.target.options;
+    let value = [];
+    for (let i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        value.push(parseInt(options[i].value));
+      }
+    }
+
+    setCategoryIds(value);
+  }
+
   return (
     <form>
       <div className="form-group row" style={{ margin: "10px" }}>
@@ -50,9 +65,17 @@ export function ArticleForm({
             className="custom-select form-select mb-3 rounded"
             size={3}
             multiple
+            onChange={(e) => {
+              handleCategories(e);
+            }}
           >
             {categories.map((category) => (
-              <option value={category.id}>{category.name}</option>
+              <option
+                value={category.id}
+                selected={categoryIds.includes(category.id)}
+              >
+                {category.name}
+              </option>
             ))}
           </select>
           <small className="form-text text-muted">
