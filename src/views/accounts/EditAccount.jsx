@@ -22,7 +22,6 @@ export function EditAccount({}) {
         current_password: currentPassword,
       },
     }).then((response) => {
-      console.log(response);
       navigate(-1);
     });
   }

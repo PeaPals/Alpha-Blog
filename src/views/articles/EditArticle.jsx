@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ArticleForm } from "./ArticleForm";
 import { useParams, useNavigate } from "react-router-dom";
 import { Server } from "../../shared/helper";
+import { Error } from "../../components/Error";
 
 export function EditArticle() {
   const id = useParams().id;
@@ -9,6 +10,7 @@ export function EditArticle() {
   const [description, setDescription] = useState("");
   const [categoryIds, setCategoryIds] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
+  const [errorMessages, setErrorMessages] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,6 +40,7 @@ export function EditArticle() {
       },
       category_ids: categoryIds,
     }).then((response) => {
+      setErrorMessages(response.data.errors);
       const articleId = response.data.article.id;
       navigate(`/articles/${articleId}`);
     });
@@ -46,6 +49,10 @@ export function EditArticle() {
   return (
     <div id="page-content">
       <h1 className="text-center mt-4">Edit Article</h1>
+      <Error
+        errorHeading={"Following errors prevented article from updating."}
+        errorMessages={errorMessages}
+      />
       <ArticleForm
         categories={allCategories}
         title={title}

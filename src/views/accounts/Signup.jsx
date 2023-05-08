@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Context, Server } from "../../shared/helper";
+import { Error } from "../../components/Error";
 
 export function Signup({}) {
   const navigate = useNavigate();
@@ -9,6 +9,7 @@ export function Signup({}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [errorMessages, setErrorMessages] = useState([]);
 
   const { context, setContext } = useContext(Context);
 
@@ -22,22 +23,28 @@ export function Signup({}) {
         password: password,
         password_confirmation: passwordConfirmation,
       },
-    }).then((response) => {
-      if (response.headers.hasAuthorization()) {
-        const token = response.headers.getAuthorization();
-        sessionStorage.setItem("token", token);
+    })
+      .then((response) => {
+        // TODO : setErrorMessages(response.data.errors);
 
-        Server.defaults.headers.common["Authorization"] = token;
+        if (response.headers.hasAuthorization()) {
+          const token = response.headers.getAuthorization();
+          sessionStorage.setItem("token", token);
 
-        Server.get("/member-data").then((res) => {
-          setContext({ ...context, authToken: token, currentUser: res.data });
-        });
+          Server.defaults.headers.common["Authorization"] = token;
 
-        navigate("/");
-      }
-    });
+          Server.get("/member-data").then((res) => {
+            setContext({ ...context, authToken: token, currentUser: res.data });
+          });
 
-    // TODO
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        setErrorMessages([
+          "Something went wrong. Please fill all the section and try again.",
+        ]);
+      });
   }
 
   return (
@@ -45,6 +52,8 @@ export function Signup({}) {
       <h1 className="text-center mt-4" style={{ margin: "30px" }}>
         Sign-up to Alpha-Blog
       </h1>
+      <Error errorHeading={""} errorMessages={errorMessages} />
+
       <form>
         <div className="form-group row" style={{ margin: "10px" }}>
           <label className="col-2 col-form-label">Username</label>

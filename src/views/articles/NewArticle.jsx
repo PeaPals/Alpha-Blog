@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { ArticleForm } from "./ArticleForm";
 import { useNavigate } from "react-router-dom";
 import { Server } from "../../shared/helper";
+import { Error } from "../../components/Error";
 
 export function NewArticle({}) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [categoryIds, setCategoryIds] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
+  const [errorMessages, setErrorMessages] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,7 +32,8 @@ export function NewArticle({}) {
       },
       category_ids: categoryIds,
     }).then((response) => {
-      console.log(response);
+      setErrorMessages(response.data.errors);
+
       const articleId = response.data.article.article.id;
       navigate(`/articles/${articleId}`);
     });
@@ -39,6 +42,12 @@ export function NewArticle({}) {
   return (
     <div id="page-content">
       <h1 className="text-center mt-4">Create New Article</h1>
+
+      <Error
+        errorHeading={"Following errors prevented article from saving."}
+        errorMessages={errorMessages}
+      />
+
       <ArticleForm
         categories={allCategories}
         title={title}

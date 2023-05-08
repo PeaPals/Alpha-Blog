@@ -2,13 +2,14 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 import { Context, Server } from "../../shared/helper";
+import { Error } from "../../components/Error";
 
 export function Login({}) {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState("");
+  const [errorMessages, setErrorMessages] = useState([]);
 
   const { context, setContext } = useContext(Context);
 
@@ -19,22 +20,27 @@ export function Login({}) {
       user: {
         email: email,
         password: password,
-        remember_me: rememberMe,
       },
-    }).then((response) => {
-      if (response.headers.hasAuthorization()) {
-        const token = response.headers.getAuthorization();
-        sessionStorage.setItem("token", token);
+    })
+      .then((response) => {
+        if (response.headers.hasAuthorization()) {
+          const token = response.headers.getAuthorization();
+          sessionStorage.setItem("token", token);
 
-        Server.defaults.headers.common["Authorization"] = token;
+          Server.defaults.headers.common["Authorization"] = token;
 
-        Server.get("/member-data").then((res) => {
-          setContext({ ...context, authToken: token, currentUser: res.data });
-        });
-      }
+          Server.get("/member-data").then((res) => {
+            setContext({ ...context, authToken: token, currentUser: res.data });
+          });
+        }
 
-      navigate("/");
-    });
+        navigate("/");
+      })
+      .catch((error) => {
+        setErrorMessages([
+          "Email or password did not match. Please try again.",
+        ]);
+      });
   }
 
   return (
@@ -42,6 +48,7 @@ export function Login({}) {
       <h1 className="text-center mt-4" style={{ margin: "30px" }}>
         Login to Alpha-Blog
       </h1>
+      <Error errorHeading={""} errorMessages={errorMessages} />
       <form>
         <div className="form-group row" style={{ margin: "10px" }}>
           <label className="col-2 col-form-label">Email</label>
@@ -74,16 +81,7 @@ export function Login({}) {
         {/* TODO : check if remember me div should be kept or removed */}
         <div className="form-group row">
           <div className="col-6"></div>
-          <div className="form-check form-switch col">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value={rememberMe}
-              onChange={(e) => setRememberMe(e.target.value)}
-              id="flexSwitchCheckDefault"
-            ></input>
-            <label className="form-check-label">Remember Me</label>
-          </div>
+          <div className="form-check form-switch col"></div>
           <div className="col-1"></div>
         </div>
 

@@ -101,9 +101,9 @@ function App() {
             path="/accounts/signup"
             exact
             element={
-              <RequireSignIn>
+              <RequireLogout>
                 <Signup />
-              </RequireSignIn>
+              </RequireLogout>
             }
           />
           <Route
