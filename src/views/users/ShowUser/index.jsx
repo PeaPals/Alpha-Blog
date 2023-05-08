@@ -27,7 +27,6 @@ export function ShowUser({}) {
 
     Server.get(`/users/${id}` + adder).then((response) => {
       setObject(response.data);
-      console.log(object);
     });
   }, [id, param, followChange]);
 

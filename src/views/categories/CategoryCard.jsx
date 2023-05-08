@@ -15,7 +15,7 @@ export function CategoryCard({ category, mentionedIn, createdAt, updatedAt }) {
             </Link>
           </h5>
           <button
-            class="btn btn-sm btn-dark disabled"
+            className="btn btn-sm btn-dark disabled"
             style={{ margin: "10px", height: "30px", width: "165px" }}
           >
             Mentioned in {mentionedIn}

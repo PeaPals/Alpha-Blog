@@ -38,7 +38,6 @@ function RequireSignIn({
     return <>{children}</>;
   } else {
     // TODO : show message "you need to signin first"
-    console.log(message);
 
     return <Navigate to="/" />;
   }
@@ -54,7 +53,6 @@ function RequireLogout({
     return <>{children}</>;
   } else {
     // TODO : show message "you need to logout first"
-    console.log(message);
 
     return <Navigate to="/" />;
   }

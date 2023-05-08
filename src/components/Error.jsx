@@ -1,5 +1,4 @@
 export function Error({ errorHeading, errorMessages }) {
-  console.log(errorMessages);
   if (!errorMessages.length) {
     return <></>;
   }
