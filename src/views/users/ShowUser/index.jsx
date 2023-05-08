@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { UserCard } from "./UserCard";
+import { UserCard } from "../UserCard";
 import { UserControls } from "./UserControls";
 import { useSearchParams, useParams } from "react-router-dom";
 import { Server } from "../../../shared/helper";
 import { GridView } from "../../../components/gridview";
 import { ArticleCard } from "../../articles/ArticleCard";
+import { PlaneUserCard } from "./PlaneUserCard";
 
 export function ShowUser({}) {
   const id = useParams().id;
@@ -14,6 +15,8 @@ export function ShowUser({}) {
     followers: [],
     followings: [],
   });
+
+  const [followChange, setFollowChange] = useState({});
 
   const [searchParams] = useSearchParams();
   const param = searchParams.get("show");
@@ -26,14 +29,18 @@ export function ShowUser({}) {
       setObject(response.data);
       console.log(object);
     });
-  }, [id, param]);
+  }, [id, param, followChange]);
 
   return (
     <div className="container">
       <div className="main-body" style={{ marginTop: "50px" }}>
         <div className="row gutters-sm">
           <div className="col-md-4 mb-3">
-            <UserCard id={id} gender={gender} username={object.user.username} />
+            <PlaneUserCard
+              id={id}
+              gender={gender}
+              username={object.user.username}
+            />
 
             <UserControls
               id={id}
@@ -74,6 +81,8 @@ export function ShowUser({}) {
                     isFollowing={obj.isFollowing}
                     followBack={obj.followBack}
                     key={obj.user.id}
+                    followChange={followChange}
+                    setFollowChange={setFollowChange}
                   />
                 </div>
               ))}
@@ -89,6 +98,8 @@ export function ShowUser({}) {
                     isFollowing={obj.isFollowing}
                     followBack={obj.followBack}
                     key={obj.user.id}
+                    followChange={followChange}
+                    setFollowChange={setFollowChange}
                   />
                 </div>
               ))}

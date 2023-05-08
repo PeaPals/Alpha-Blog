@@ -3,6 +3,7 @@ import "./App.css";
 import "bootstrap/dist/js/bootstrap";
 import {
   Navigate,
+  Outlet,
   Route,
   BrowserRouter as Router,
   Routes,
@@ -33,7 +34,7 @@ function RequireSignIn({
 }) {
   const { context, setContext } = useContext(Context);
 
-  if (context.currentUser) {
+  if (context.currentUser || sessionStorage.getItem("token")) {
     return <>{children}</>;
   } else {
     // TODO : show message "you need to signin first"
@@ -49,7 +50,7 @@ function RequireLogout({
 }) {
   const { context, setContext } = useContext(Context);
 
-  if (!context.currentUser) {
+  if (!(context.currentUser || sessionStorage.getItem("token"))) {
     return <>{children}</>;
   } else {
     // TODO : show message "you need to logout first"

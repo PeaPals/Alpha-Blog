@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../../../shared/helper";
 
 export function UserControls({
   id,
@@ -8,10 +10,8 @@ export function UserControls({
   totalFollowers,
   totalFollowings,
 }) {
-  function ifSameUser() {
-    // TODO : remove this function from here and add it to helper js functions
-    return true;
-  }
+  const { context, setContext } = useContext(Context);
+  const currentUser = context.currentUser;
 
   return (
     <div className="card mt-3 shadow-lg p-3 mb-5 bg-white rounded">
@@ -33,7 +33,7 @@ export function UserControls({
               <span className="text-secondary">{joinedAgo} ago</span>
             </li>
 
-            {ifSameUser() && (
+            {currentUser.id === id && (
               <>
                 <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                   <h6 className="mb-0"> Edit Profile </h6>

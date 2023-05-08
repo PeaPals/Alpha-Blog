@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Context } from "../../shared/helper";
+import { Context, Server } from "../../shared/helper";
 import userLogo from "../../assets/images/user-logo.png";
 
 export function UserCard({
@@ -12,10 +12,24 @@ export function UserCard({
   createdAt,
   isFollowing,
   followBack,
+  followChange,
+  setFollowChange,
 }) {
   const { context, setContext } = useContext(Context);
   const currentUser = context.currentUser;
   const gender = user.id % 2 ? "male" : "female";
+
+  function handleFollow(event) {
+    if (isFollowing) {
+      Server.post(`/users/${user.id}/unfollow`).then((response) => {
+        setFollowChange(!followChange);
+      });
+    } else {
+      Server.post(`/users/${user.id}/follow`).then((response) => {
+        setFollowChange(!followChange);
+      });
+    }
+  }
 
   return (
     <div className="container">
@@ -28,10 +42,15 @@ export function UserCard({
 
           {!(currentUser.id === user.id) && (
             <>
-              <Link className="btn btn-warning btn-sm fw-bold">
+              <button
+                className="btn btn-warning btn-sm fw-bold"
+                onClick={(event) => {
+                  handleFollow(event);
+                }}
+              >
                 {isFollowing ? "✓ Following" : "✛ Follow"}{" "}
                 {followBack ? "back" : ""}
-              </Link>
+              </button>
             </>
           )}
         </div>
@@ -58,27 +77,30 @@ export function UserCard({
             style={{ alignItems: "flex-end", marginTop: "1.5rem" }}
           >
             <Link
-              to={`/users/${user.id}?show=articles`}
+              to={`/users/${user.id}?show=Articles`}
               className="btn btn-md btn-light col-4"
               style={{ overflowWrap: "normal" }}
             >
-              <b>{totalArticles}</b> Articles
+              <b>{totalArticles}</b>
+              <p>Articles</p>
             </Link>
 
             <Link
-              to={`/users/${user.id}?show=followers`}
+              to={`/users/${user.id}?show=Followers`}
               className="btn btn-md btn-light col-4"
               style={{ overflowWrap: "normal" }}
             >
-              <b>{totalFollowers}</b> Followers
+              <b>{totalFollowers}</b>
+              <p>Followers</p>
             </Link>
 
             <Link
-              to={`/users/${user.id}?show=following`}
+              to={`/users/${user.id}?show=Following`}
               className="btn btn-md btn-light col-4"
               style={{ overflowWrap: "normal" }}
             >
-              <b>{totalFollowing}</b> Followings
+              <b>{totalFollowing}</b>
+              <p>Followings</p>
             </Link>
           </div>
 

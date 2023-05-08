@@ -1,6 +1,6 @@
 import userLogo from "../../../assets/images/user-logo.png";
 
-export function UserCard({ id, gender, username }) {
+export function PlaneUserCard({ id, gender, username }) {
   return (
     <div className="card shadow-lg p-3 mb-5 bg-white rounded">
       <div className="card-body">
