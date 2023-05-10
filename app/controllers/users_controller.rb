@@ -1,55 +1,38 @@
+include ActionView::Helpers::DateHelper
+
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :get_user, only: [:show, :destroy, :follow, :unfollow]
-  before_action :user_is_not_current_user, only: [:destroy]
+  before_action :get_user, only: [:show, :follow, :unfollow]
 
 
   def show
-
     if !params[:show]
-      params[:show] = 'articles'
+      params[:show] = 'Articles'
     end
 
-    if params[:show] == 'articles'
-      @resource = @user.articles.all
-      @resource_title = 'Articles'
-      @resource_view = 'shared/articles-view'
+    @articles = params[:show] == 'Articles' ? @user.articles.all : []
+    @followers = params[:show] == 'Followers' ? @user.followers.all : []
+    @followings = params[:show] == 'Following' ? @user.followings.all : []
 
-    elsif params[:show] == 'followers'
-      @resource = @user.followers.all
-      @resource_title = 'Followers'
-      @resource_view = 'shared/users-view'
+    response = transform_users([@user])[0]
 
-    elsif params[:show] == 'following'
-      @resource = @user.followings.all
-      @resource_title = 'Following'
-      @resource_view = 'shared/users-view'
-    end
+    response[:articles] = transform_articles(@articles)
+    response[:followers] = transform_users(@followers)
+    response[:followings] = transform_users(@followings)
 
-    render json: {user: @user, resource: @resource}
+    render json: response
 
   end
 
 
   def index
     @users = User.all
-    allUsers = []
-
-
-    @users.each do |user|
-      new_user = {user: user, following: false, follower: false}
-      allUsers << new_user
-    end
-
-
-    render json: {allUsers: allUsers}
+    render json: {allUsers: transform_users(@users)}
   end
 
 
   def destroy
-    # current_user = nil
-
-    @user.destroy
+    current_user.destroy
     render json: {status: true}
   end
 
@@ -69,6 +52,28 @@ class UsersController < ApplicationController
 
 
   private
+  def transform_articles(articles)
+    new_articles = []
+
+    articles.each do |article|
+      new_articles << {article: article, categories: article.categories, user: article.user, createdAt: time_ago_in_words(article.created_at), updatedAt: time_ago_in_words(article.updated_at)}
+    end
+
+    return new_articles
+  end
+
+  def transform_users(users)
+    new_users = []
+
+    users.each do |user|
+      follow_back = Follow.find_by(following_user_id: user.id, followed_user_id: current_user.id)
+      is_following = Follow.find_by(following_user_id: current_user.id, followed_user_id: user.id)
+
+      new_users << {user: user, isFollowing: is_following, createdAt: time_ago_in_words(user.created_at), updatedAt: time_ago_in_words(user.updated_at), followBack: follow_back, totalArticles: user.articles.count, totalFollowers: user.followers.count, totalFollowing: user.followings.count}
+    end
+
+    return new_users
+  end
 
   def get_user
     @user = User.find(params[:id])
@@ -76,12 +81,5 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:username, :email, :password)
-  end
-
-  def user_is_not_current_user
-    if current_user != @user
-      flash[:alert] = "Only admins can perform this action."
-      redirect_to @user
-    end
   end
 end

@@ -1,13 +1,12 @@
+include ActionView::Helpers::DateHelper
+
 class ArticlesController < ApplicationController
   before_action :authenticate_user!
   before_action :get_article, only: [:show, :update, :edit, :destroy]
   before_action :require_same_user, only: [:edit, :update, :destroy]
 
-
-
-
   def show
-    render json: {article: @article}
+    render json: transform_articles([@article])[0]
   end
 
   def index
@@ -22,7 +21,9 @@ class ArticlesController < ApplicationController
       @articles = Article.all
     end
 
-    render json: {allArticles: @articles}
+
+
+    render json: {allArticles: transform_articles(@articles)}
   end
 
   def new
@@ -34,10 +35,9 @@ class ArticlesController < ApplicationController
     @article.user = current_user
 
     if @article.save
-      flash[:notice] = "Article was created successfully."
-      redirect_to article_path(@article)
+      render json: {article: transform_articles([@article])[0]}
     else
-      render 'new'
+      render json: {errors: @article.errors.full_messages}
     end
   end
 
@@ -46,7 +46,7 @@ class ArticlesController < ApplicationController
     if @article.update(article_params)
       render json: {status: true, article: @article}
     else
-      render json: {status: false, errors: []}
+      render json: {status: false, errors: @article.errors.full_messages}
     end
   end
 
@@ -62,6 +62,16 @@ class ArticlesController < ApplicationController
 
 
   private
+  def transform_articles(articles)
+    new_articles = []
+
+    articles.each do |article|
+      new_articles << {article: article, categories: article.categories, user: article.user, createdAt: time_ago_in_words(article.created_at), updatedAt: time_ago_in_words(article.updated_at)}
+    end
+
+    return new_articles
+  end
+
 
   def get_article
     @article = Article.find(params[:id])
