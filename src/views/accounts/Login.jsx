@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 import { Context, Server } from "../../shared/helper";
-import { Error } from "../../components/Error";
+import { Error } from "../../components";
 
 export function Login({}) {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export function Login({}) {
       .then((response) => {
         if (response.headers.hasAuthorization()) {
           const token = response.headers.getAuthorization();
-          sessionStorage.setItem("token", token);
+          localStorage.setItem("token", token);
 
           Server.defaults.headers.common["Authorization"] = token;
 

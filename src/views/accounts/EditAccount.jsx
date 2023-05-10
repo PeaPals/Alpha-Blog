@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Server } from "../../shared/helper";
+import { Context, Server } from "../../shared/helper";
 
-export function EditAccount({}) {
+export function EditAccount() {
+  const { context, setContext } = useContext(Context);
+  const currentUser = context.currentUser;
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setUsername(currentUser.username);
+    setEmail(currentUser.email);
+  }, []);
 
   function onSubmit(e) {
     e.preventDefault();
@@ -22,7 +30,9 @@ export function EditAccount({}) {
         current_password: currentPassword,
       },
     }).then((response) => {
-      navigate(-1);
+      Server.get("/member-data").then((res) => {
+        setContext({ ...context, currentUser: res.data });
+      });
     });
   }
 

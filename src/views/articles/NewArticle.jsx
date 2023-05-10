@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ArticleForm } from "./ArticleForm";
 import { useNavigate } from "react-router-dom";
 import { Server } from "../../shared/helper";
-import { Error } from "../../components/Error";
+import { Error } from "../../components";
 
 export function NewArticle({}) {
   const [title, setTitle] = useState("");

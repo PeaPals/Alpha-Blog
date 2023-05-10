@@ -33,7 +33,7 @@ export function UserControls({
               <span className="text-secondary">{joinedAgo} ago</span>
             </li>
 
-            {currentUser.id === id && (
+            {currentUser && currentUser.id == id && (
               <>
                 <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                   <h6 className="mb-0"> Edit Profile </h6>

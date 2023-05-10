@@ -10,16 +10,15 @@ export function NavBar() {
 
   function logout() {
     Server.delete("/accounts/logout").then((response) => {
-      sessionStorage.removeItem("token");
+      localStorage.removeItem("token");
       setContext({ ...context, authToken: undefined, currentUser: undefined });
     });
   }
 
   function deleteProfile() {
     if (window.confirm("Are you sure?")) {
-      Server.delete("/accounts").then((response) => {
-        console.log("DELETE PROFILE RESPONSE :", response);
-        sessionStorage.removeItem("token");
+      Server.delete("/delete-account").then((response) => {
+        localStorage.removeItem("token");
         setContext({
           ...context,
           authToken: undefined,

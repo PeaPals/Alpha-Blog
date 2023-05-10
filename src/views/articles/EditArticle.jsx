@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ArticleForm } from "./ArticleForm";
 import { useParams, useNavigate } from "react-router-dom";
 import { Server } from "../../shared/helper";
-import { Error } from "../../components/Error";
+import { Error } from "../../components";
 
 export function EditArticle() {
   const id = useParams().id;
