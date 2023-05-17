@@ -63,7 +63,7 @@ export function ArticleForm({
         <div className="col-9">
           <select
             className="custom-select form-select mb-3 rounded"
-            size={3}
+            size={8}
             multiple
             onChange={(e) => {
               handleCategories(e);

@@ -27,24 +27,17 @@ function Tester() {
   return <></>;
 }
 
-function RequireSignIn({
-  children,
-  message = "You need to sign-in before continuing.",
-}) {
+function RequireSignIn({ children }) {
   const { context, setContext } = useContext(Context);
 
   if (context.currentUser || localStorage.getItem("token")) {
     return <>{children}</>;
   } else {
-    // TODO : show message "you need to signin first"
     return <Navigate to="/" />;
   }
 }
 
-function RequireLogout({
-  children,
-  message = "You need to logout before continuing.",
-}) {
+function RequireLogout({ children }) {
   const { context, setContext } = useContext(Context);
 
   if (!(context.currentUser || localStorage.getItem("token"))) {
@@ -57,7 +50,6 @@ function RequireLogout({
 function App() {
   const [context, setContext] = useState({
     authToken: localStorage.getItem("token"),
-    flashMessage: {},
   });
 
   useEffect(() => {
